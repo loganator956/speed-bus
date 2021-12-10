@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TestGridScript : MonoBehaviour
 {
-
     private Transform _camTransform;
 
     private void Awake()
