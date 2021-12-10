@@ -57,6 +57,7 @@ public class BusSpriteChanger : MonoBehaviour
         _doorAnimationTimer += Time.deltaTime;
         if (_doorAnimationTimer > DoorAnimationFrameTime)
         {
+            _doorAnimationTimer = 0f;
             // go to next frame, if needed
             if (DoorIsOpen)
             {
