@@ -31,7 +31,6 @@ public class TopDownCarController : MonoBehaviour
     {
         accelerationInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
-        Debug.Log(_rigidbody2D.velocity.magnitude);
     }
 
     private void FixedUpdate()
