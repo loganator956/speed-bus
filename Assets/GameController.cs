@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
@@ -12,7 +13,7 @@ public class GameController : MonoBehaviour
         get { return _currentStage; }
         set
         {
-            if (value > 10)
+            if (value > MaxStage)
             {
                 GameFinishedEvent.Invoke();
             }
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-    public const int MaxStage = 10; // limit to 10 just for the game jam build
+    public const int MaxStage = 5; // limit to 10 just for the game jam build
 
     [Header("Events")]
     public UnityEvent PlayerStageChangedEvent, GameFinishedEvent, CheckStopsSatisfiedEvent;
@@ -33,6 +34,8 @@ public class GameController : MonoBehaviour
         PlayerController.RiderCountChangedEvent.AddListener(CheckStopsSatisfied);
         PlayerStageChangedEvent.AddListener(GameStage_Changed);
         CheckStopsSatisfiedEvent.AddListener(CheckStopsSatisfied);
+        stops = GameObject.FindObjectsOfType<BusStopScript>();
+        GameFinishedEvent.AddListener(GameFinished);
     }
     // Start is called before the first frame update
     void Start()
@@ -43,13 +46,24 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    BusStopScript[] stops;
+
+    public int GetRemainingStops()
+    {
+        int count = 0;
+        foreach (BusStopScript stop in stops)
+        {
+            if (!stop.CheckSatisfication()) { count++; };
+        }
+        return count;
     }
 
     void CheckStopsSatisfied()
     {
         bool success = true;
-        BusStopScript[] stops = GameObject.FindObjectsOfType<BusStopScript>();
+        // BusStopScript[] stops = GameObject.FindObjectsOfType<BusStopScript>();
         foreach (BusStopScript stop in stops)
         {
             if (!stop.CheckSatisfication())
@@ -79,10 +93,15 @@ public class GameController : MonoBehaviour
         Iterate through each bus stop and initialize their correct values for the stage
         */
 
-        foreach(BusStopScript stop in GameObject.FindObjectsOfType<BusStopScript>())
+        foreach (BusStopScript stop in GameObject.FindObjectsOfType<BusStopScript>())
         {
             stop.PassengerRequest = Convert.ToInt32(stop.PassengerRequestCurve.Evaluate(CurrentStage));
             stop.NumberOfPassengersDefault = stop.NumberOfPassengersWaiting = Convert.ToInt32(stop.PassengerSupplyCurve.Evaluate(CurrentStage));
         }
+    }
+
+    void GameFinished()
+    {
+        SceneManager.LoadScene(2);
     }
 }
