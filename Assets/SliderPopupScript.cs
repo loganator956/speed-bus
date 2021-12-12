@@ -24,7 +24,6 @@ public class SliderPopupScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // TODO: Create the t value fluctuate from 0 <-> 1
         if (direction)
         {
             rawT += Time.deltaTime * TSpeed;
