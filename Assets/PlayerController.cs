@@ -1,66 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    public AnimationCurve SpeedCurve;
-    public float SpeedCurveRate = 0.5f;
-    public float MaxSpeed = 4f;
+    private static int _riderCount = 0;
+    public static int RiderCount
+    {
+        get { return _riderCount; }
+        set
+        {
+            _riderCount = value;
+            RiderCountChangedEvent.Invoke();
+        }
+    }
+
+    public static UnityEvent RiderCountChangedEvent = new UnityEvent();
+
+    public int AttemptOffloadPassengers(int request)
+    {
+        /*
+        try offload passengers
+        do RiderCount - the amount of passengers the bus stop needs. Clamp it above 0
+        Subtract that amount from the number of riders and add to the received variable of the bus stop
+        */
+        // int amountToOffload = RiderCount - request;
+        // if (amountToOffload < 0) { amountToOffload = request; }; 
+        int amountToOffload = request;
+        if (RiderCount - request < 0) { amountToOffload = RiderCount; };
+        RiderCount -= amountToOffload;
+        return amountToOffload;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
 
     }
 
-    private Vector2 _inputs = new Vector2(0, 0);
-
-    private float _speedCurveT = 0f;
-
-    public bool EnableInputs = true;
-
     // Update is called once per frame
     void Update()
     {
-        if (EnableInputs)
-        {
-            bool isMoving = false;
-            Vector2 newInputs = Vector2.zero;
-            if (Input.GetKey(KeyCode.W))
-            {
-                isMoving = true;
-                newInputs += Vector2.up;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                isMoving = true;
-                newInputs += Vector2.down;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                isMoving = true;
-                newInputs += Vector2.left;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                isMoving = true;
-                newInputs += Vector2.right;
-            }
-            if (isMoving)
-            {
-                _speedCurveT += Time.deltaTime * SpeedCurveRate;
-                _inputs = newInputs;
-            }
-            else if (isMoving)
-            {
-                _speedCurveT += Time.deltaTime * SpeedCurveRate * -1f;
-            }
-            _speedCurveT = Mathf.Clamp01(_speedCurveT);
-        }
-    }
 
-    private void FixedUpdate()
-    {
-        transform.position += new Vector3(_inputs.x * Time.fixedDeltaTime * SpeedCurve.Evaluate(_speedCurveT), 0, _inputs.y * Time.fixedDeltaTime * SpeedCurve.Evaluate(_speedCurveT));
     }
 }

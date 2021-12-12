@@ -7,7 +7,13 @@ using UnityEngine.UI;
 public class BusStopScript : MonoBehaviour
 {
     public int NumberOfPassengersDefault = 5;
-    public float PassengerRequestDefault = 5f;
+    public int NumberOfPassengersWaiting;
+    public int PassengerRequestDefault = 5;
+    public AnimationCurve PassengerRequestCurve, PassengerSupplyCurve;
+
+    // [HideInInspector()]
+    public int PassengerRequest = 5;
+    public int PassengersReceived = 0;
 
     private bool _isEntered = false;
     private bool _hasShownPopup = false;
@@ -18,6 +24,8 @@ public class BusStopScript : MonoBehaviour
     private BusStopManager _busStopManager;
 
     private float _cooldown = 0f;
+
+    private const float _passengerRegenRate = 1f;
 
     private void Awake()
     {
@@ -31,31 +39,59 @@ public class BusStopScript : MonoBehaviour
 
     }
 
+    public bool CheckSatisfication()
+    {
+        if (PassengerRequest == 0) { return true; };
+        return (PassengersReceived >= PassengerRequest);
+    }
+
+    float regenTimer = 0f;
+
     // Update is called once per frame
     void Update()
     {
         if (_isEntered && !_hasShownPopup && _cooldown <= 0f)
         {
-            if (playerRigidbody2D.velocity.magnitude < maxSpeed)
+            if (NumberOfPassengersDefault == 0)
             {
-                Debug.Log("Showing skill bar");
-                _hasShownPopup = true;
-                playerPreviousVelocity = playerRigidbody2D.velocity;
-                playerRigidbody2D.velocity = Vector2.zero;
-                TopDownCarController.EnableDriving = false;
-                _slowDownText.enabled = false;
-                _busStopManager.ShowSliderPopup().AddListener(OnTimingPopupFinish);
+                // this stop is not needed for the current stage
+                _slowDownText.enabled = true;
+                _slowDownText.text = "GO TO DIFFERENT STOP";
             }
             else
             {
-                Debug.Log("Slow down");
-                _slowDownText.enabled = true;
+                if (playerRigidbody2D.velocity.magnitude < maxSpeed)
+                {
+                    Debug.Log("Showing skill bar");
+                    _hasShownPopup = true;
+                    playerPreviousVelocity = playerRigidbody2D.velocity;
+                    playerRigidbody2D.velocity = Vector2.zero;
+                    TopDownCarController.EnableDriving = false;
+                    _slowDownText.enabled = false;
+                    _busStopManager.ShowSliderPopup().AddListener(OnTimingPopupFinish);
+                }
+                else
+                {
+                    _slowDownText.text = "SLOW DOWN";
+                    _slowDownText.enabled = true;
+                }
             }
         }
 
         if (_cooldown > 0)
         {
             _cooldown -= Time.deltaTime;
+        }
+
+        regenTimer += Time.deltaTime;
+        if (regenTimer > _passengerRegenRate)
+        {
+            regenTimer = 0f;
+            NumberOfPassengersWaiting++;
+            if (NumberOfPassengersWaiting > NumberOfPassengersDefault)
+            {
+                NumberOfPassengersWaiting = NumberOfPassengersDefault;
+            }
         }
     }
 
@@ -67,6 +103,8 @@ public class BusStopScript : MonoBehaviour
         {
             playerRigidbody2D = other.attachedRigidbody;
             _isEntered = true;
+            PassengersReceived += other.GetComponent<PlayerController>().AttemptOffloadPassengers(PassengerRequest - PassengersReceived);
+            FindObjectOfType<GameController>().CheckStopsSatisfiedEvent.Invoke(); // invoking a separate event instead of when the player RiderCount value changes due to the order of which things are executed
         }
     }
 
@@ -88,8 +126,9 @@ public class BusStopScript : MonoBehaviour
         TopDownCarController.EnableDriving = true;
 
         // TODO: Do the actual loading up of passengers
-        // TODO: introduce a stage multiplier (so as the player progresses through the stages, the number of passengers change)
-        int numberOfPassengers = Mathf.FloorToInt(NumberOfPassengersDefault * percentageOfPassengers);
+        int numberOfPassengers = Mathf.FloorToInt(NumberOfPassengersWaiting * percentageOfPassengers);
+        NumberOfPassengersWaiting -= numberOfPassengers;
+        PlayerController.RiderCount += numberOfPassengers;
     }
 }
 

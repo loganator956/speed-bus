@@ -72,7 +72,7 @@ public class SliderPopupScript : MonoBehaviour
                 percentageOfPassengers = 1 - ((finalT - (1 - _badRangeSize)) / _badRangeSize);
             }
         }
-
+        Debug.Log(percentageOfPassengers);
         onFinishEvent.Invoke(percentageOfPassengers);
 
         gameObject.SetActive(false);
