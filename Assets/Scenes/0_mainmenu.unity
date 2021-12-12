@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 52257897}
   - component: {fileID: 52257896}
   - component: {fileID: 52257895}
+  - component: {fileID: 52257898}
   m_Layer: 5
   m_Name: exitbutton
   m_TagString: Untagged
@@ -244,6 +245,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52257893}
   m_CullTransparentMesh: 1
+--- !u!114 &52257898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52257893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfbea5d4b4b072241be4404e880f30aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &137883501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,7 +2889,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 2
+      m_TileSpriteIndex: 14
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -3046,7 +3059,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 7
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 4
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -3117,14 +3130,14 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 14
     m_Data: {fileID: 21300000, guid: a69e6bb365f16d140b294e86b8dc7b01, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -136850001928264987, guid: 93fabd306da22254a9d1520281dc282e, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 462697581713945356, guid: b33a8dde78af5c24195d4be81c1e293f, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 03e6dff3ae0e28943ad50a9f0aad5432, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 03e6dff3ae0e28943ad50a9f0aad5432, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -136850001928264987, guid: 93fabd306da22254a9d1520281dc282e, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -8332391198664091860, guid: 93fabd306da22254a9d1520281dc282e, type: 3}
   - m_RefCount: 3
@@ -3143,8 +3156,8 @@ Tilemap:
     m_Data: {fileID: 8818855233484821758, guid: 681ed07d3dee52c40bdbad470ebb437e, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 3895402389616106205, guid: 681ed07d3dee52c40bdbad470ebb437e, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 462697581713945356, guid: b33a8dde78af5c24195d4be81c1e293f, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 29
     m_Data:
@@ -3359,6 +3372,7 @@ GameObject:
   - component: {fileID: 2054527701}
   - component: {fileID: 2054527700}
   - component: {fileID: 2054527699}
+  - component: {fileID: 2054527702}
   m_Layer: 5
   m_Name: playbutton
   m_TagString: Untagged
@@ -3468,6 +3482,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2054527697}
   m_CullTransparentMesh: 1
+--- !u!114 &2054527702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054527697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2806b2a05f48154cb867e75e6b18b97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2145932717
 GameObject:
   m_ObjectHideFlags: 0
