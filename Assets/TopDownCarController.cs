@@ -11,6 +11,8 @@ public class TopDownCarController : MonoBehaviour
 
     public AnimationCurve TurnSpeedCurve;
 
+    public static bool EnableDriving = true;
+
     float accelerationInput, steerInput, rotationAngle;
 
     private Rigidbody2D _rigidbody2D;
@@ -29,8 +31,15 @@ public class TopDownCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        accelerationInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
+        if (EnableDriving)
+        {
+            accelerationInput = Input.GetAxis("Vertical");
+            steerInput = Input.GetAxis("Horizontal");
+        }
+        else
+        {
+            steerInput = accelerationInput = 0f;
+        }
     }
 
     private void FixedUpdate()

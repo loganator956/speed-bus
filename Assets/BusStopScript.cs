@@ -42,8 +42,7 @@ public class BusStopScript : MonoBehaviour
                 _hasShownPopup = true;
                 playerPreviousVelocity = playerRigidbody2D.velocity;
                 playerRigidbody2D.velocity = Vector2.zero;
-                PlayerController.EnableInputs = false;
-                // TODO: Fix the enable inputs not working for some reason
+                TopDownCarController.EnableDriving = false;
                 _slowDownText.enabled = false;
                 _busStopManager.ShowSliderPopup().AddListener(OnTimingPopupFinish);
             }
@@ -82,13 +81,15 @@ public class BusStopScript : MonoBehaviour
 
     private void OnTimingPopupFinish(float percentageOfPassengers)
     {
-        // TODO: introduce a stage multiplier (so as the player progresses through the stages, the number of passengers change)
         Debug.Log($"Loading {NumberOfPassengersDefault * percentageOfPassengers}");
         playerRigidbody2D.velocity = playerPreviousVelocity; // reapply previous velocity
         _hasShownPopup = false;
         _cooldown = 10f;
+        TopDownCarController.EnableDriving = true;
 
         // TODO: Do the actual loading up of passengers
+        // TODO: introduce a stage multiplier (so as the player progresses through the stages, the number of passengers change)
+        int numberOfPassengers = Mathf.FloorToInt(NumberOfPassengersDefault * percentageOfPassengers);
     }
 }
 

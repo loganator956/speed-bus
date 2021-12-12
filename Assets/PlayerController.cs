@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     private float _speedCurveT = 0f;
 
-    public static bool EnableInputs = true;
+    public bool EnableInputs = true;
 
     // Update is called once per frame
     void Update()
