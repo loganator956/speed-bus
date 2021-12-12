@@ -1,0 +1,279 @@
+fileFormatVersion: 2
+guid: 4791a2cd8e8655241b85656e65c075e8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9099697024496493822
+    second: Keyboard Black Corn_0
+  - first:
+      213: 7364061631340042824
+    second: Keyboard Black Corn_1
+  - first:
+      213: 8734558287865600337
+    second: Keyboard Black Corn_2
+  - first:
+      213: 8160952626386964095
+    second: Keyboard Black Corn_3
+  - first:
+      213: -6498614050845572186
+    second: Keyboard Black Corn_4
+  - first:
+      213: 5567132924328135292
+    second: Keyboard Black Corn_5
+  - first:
+      213: 2449807307835016272
+    second: Keyboard Black Corn_6
+  - first:
+      213: -7807374118578192701
+    second: Keyboard Black Corn_7
+  - first:
+      213: 9014871589970824754
+    second: Keyboard Black Corn_8
+  - first:
+      213: 5482272555808681412
+    second: Keyboard Black Corn_9
+  - first:
+      213: -7137810868885250859
+    second: Keyboard Black Corn_10
+  - first:
+      213: 1460963926921533787
+    second: Keyboard Black Corn_11
+  - first:
+      213: 369691891355661101
+    second: Keyboard Black Corn_12
+  - first:
+      213: -5358083278809201471
+    second: Keyboard Black Corn_13
+  - first:
+      213: 7340451593155005391
+    second: Keyboard Black Corn_14
+  - first:
+      213: -4965870950771997625
+    second: Keyboard Black Corn_15
+  - first:
+      213: 2264810459689413587
+    second: Keyboard Black Corn_16
+  - first:
+      213: 3153059914808369181
+    second: Keyboard Black Corn_17
+  - first:
+      213: 2732278586544621517
+    second: Keyboard Black Corn_18
+  - first:
+      213: -2264159525406901368
+    second: Keyboard Black Corn_19
+  - first:
+      213: 2421210659807171914
+    second: Keyboard Black Corn_20
+  - first:
+      213: 849335429980868733
+    second: Keyboard Black Corn_21
+  - first:
+      213: 8570532262128260009
+    second: Keyboard Black Corn_22
+  - first:
+      213: -6546853299734601766
+    second: Keyboard Black Corn_23
+  - first:
+      213: -7338222774060498043
+    second: Keyboard Black Corn_24
+  - first:
+      213: -7796120674439108539
+    second: Keyboard Black Corn_25
+  - first:
+      213: -9151940982219512749
+    second: Keyboard Black Corn_26
+  - first:
+      213: -7660661765844431292
+    second: Keyboard Black Corn_27
+  - first:
+      213: -2383524410041120799
+    second: Keyboard Black Corn_28
+  - first:
+      213: 5995113970238713065
+    second: Keyboard Black Corn_29
+  - first:
+      213: -6841848603907868245
+    second: Keyboard Black Corn_30
+  - first:
+      213: 175724297308747992
+    second: Keyboard Black Corn_31
+  - first:
+      213: 3386107784217211191
+    second: Keyboard Black Corn_32
+  - first:
+      213: -5257896359305862129
+    second: Keyboard Black Corn_33
+  - first:
+      213: -4382752041248033244
+    second: Keyboard Black Corn_34
+  - first:
+      213: 6502062342871405005
+    second: Keyboard Black Corn_35
+  - first:
+      213: -5546793653308380720
+    second: Keyboard Black Corn_36
+  - first:
+      213: -989282409356238219
+    second: Keyboard Black Corn_37
+  - first:
+      213: -2267000054141755321
+    second: Keyboard Black Corn_38
+  - first:
+      213: 4431114366738530002
+    second: Keyboard Black Corn_39
+  - first:
+      213: -4267477899578003419
+    second: Keyboard Black Corn_40
+  - first:
+      213: 1106235300627320920
+    second: Keyboard Black Corn_41
+  - first:
+      213: 8281455552927412076
+    second: Keyboard Black Corn_42
+  - first:
+      213: 4028652045815651712
+    second: Keyboard Black Corn_43
+  - first:
+      213: 6609389880330298769
+    second: Keyboard Black Corn_44
+  - first:
+      213: 4777145284646527917
+    second: Keyboard Black Corn_45
+  - first:
+      213: 5722547822154494112
+    second: Keyboard Black Corn_46
+  - first:
+      213: -4659216338023725712
+    second: Keyboard Black Corn_47
+  - first:
+      213: -8152298646573480129
+    second: Keyboard Black Corn_48
+  - first:
+      213: 8777418907671204237
+    second: Keyboard Black Corn_49
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: keyboard_space_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 160
+        width: 80
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecdc28c85dfbe7a80800000000000000
+      internalID: -8467119325503631922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
