@@ -17,41 +17,46 @@ public class PlayerController : MonoBehaviour
 
     private float _speedCurveT = 0f;
 
+    public static bool EnableInputs = true;
+
     // Update is called once per frame
     void Update()
     {
-        bool isMoving = false;
-        Vector2 newInputs = Vector2.zero;
-        if (Input.GetKey(KeyCode.W))
+        if (EnableInputs)
         {
-            isMoving = true;
-            newInputs += Vector2.up;
+            bool isMoving = false;
+            Vector2 newInputs = Vector2.zero;
+            if (Input.GetKey(KeyCode.W))
+            {
+                isMoving = true;
+                newInputs += Vector2.up;
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                isMoving = true;
+                newInputs += Vector2.down;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                isMoving = true;
+                newInputs += Vector2.left;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                isMoving = true;
+                newInputs += Vector2.right;
+            }
+            if (isMoving)
+            {
+                _speedCurveT += Time.deltaTime * SpeedCurveRate;
+                _inputs = newInputs;
+            }
+            else if (isMoving)
+            {
+                _speedCurveT += Time.deltaTime * SpeedCurveRate * -1f;
+            }
+            _speedCurveT = Mathf.Clamp01(_speedCurveT);
         }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            isMoving = true;
-            newInputs += Vector2.down;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            isMoving = true;
-            newInputs += Vector2.left;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            isMoving = true;
-            newInputs += Vector2.right;
-        }
-        if (isMoving)
-        {
-            _speedCurveT += Time.deltaTime * SpeedCurveRate;
-            _inputs = newInputs;
-        }
-        else if (isMoving)
-        {
-            _speedCurveT += Time.deltaTime * SpeedCurveRate * -1f;
-        }
-        _speedCurveT = Mathf.Clamp01(_speedCurveT);
     }
 
     private void FixedUpdate()

@@ -42,7 +42,8 @@ public class BusStopScript : MonoBehaviour
                 _hasShownPopup = true;
                 playerPreviousVelocity = playerRigidbody2D.velocity;
                 playerRigidbody2D.velocity = Vector2.zero;
-                // TODO: Disable movement
+                PlayerController.EnableInputs = false;
+                // TODO: Fix the enable inputs not working for some reason
                 _slowDownText.enabled = false;
                 _busStopManager.ShowSliderPopup().AddListener(OnTimingPopupFinish);
             }
