@@ -1,39 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BusSpriteChanger : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody2D;
-
+    [Header("Variables")]
+    public BusSpriteAnimationData[] BusSpriteAnimationDatas; // up, right, left, down
     public float DoorAnimationFrameTime = 0.2f;
+    public bool DoorIsOpen = false;
 
-    // up, right, left, down
-    public BusSpriteAnimationData[] BusSpriteAnimationDatas;
-
-    private int _currentSpriteIndex = 0;
-
+    [Header("References")]
     public SpriteRenderer BusSpriteRenderer, DoorSpriteRenderer;
+
+    #region Private Variables
+    private int _currentSpriteIndex = 0;
+    private float _doorAnimationTimer = 0f;
+    private int _currentDoorFrameIndex = 0;
+    private Rigidbody2D _rigidbody2D;
+    #endregion
 
     private void Awake()
     {
         _rigidbody2D = GetComponentInParent<Rigidbody2D>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    private float _doorAnimationTimer = 0f;
-    private int _currentDoorFrameIndex = 0;
-
-    public bool DoorIsOpen = false;
 
     // Update is called once per frame
     void Update()
     {
+        // using dot products to establish which direction the player is facing
+        // and then applying the corresponding sprite index
         float up = Vector3.Dot(transform.up, Vector3.up);
         float right = Vector3.Dot(transform.up, Vector3.right);
         float left = Vector3.Dot(transform.up, Vector3.left);

@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+/*
+Finds all bus stops in the game world and instantiates an icon game object over the top
+*/
 
 public class BusStopIconGenerator : MonoBehaviour
 {

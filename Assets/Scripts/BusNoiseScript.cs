@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
 public class BusNoiseScript : MonoBehaviour
 {
     public AnimationCurve VelocityToPitchCurve;
+
     private Rigidbody2D _rigidbody2D;
     private AudioSource _audioSource;
 
@@ -12,12 +12,6 @@ public class BusNoiseScript : MonoBehaviour
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _audioSource = GetComponent<AudioSource>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
 
     // Update is called once per frame
