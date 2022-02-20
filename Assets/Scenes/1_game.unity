@@ -4035,7 +4035,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd0d2d929263d14a8d2cd9baadf85ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoorAnimationFrameTime: 0.2
   BusSpriteAnimationDatas:
   - DoorSprites: []
     BusSprite: {fileID: 21300000, guid: 378cbdf727f98944b93ebd1c66372154, type: 3}
@@ -4048,9 +4047,10 @@ MonoBehaviour:
     BusSprite: {fileID: 316711954920651595, guid: 40f58d86401ff9e4793b26ac2e776486, type: 3}
   - DoorSprites: []
     BusSprite: {fileID: 21300000, guid: 1b7a24c41cc7a5548ac276c21794f440, type: 3}
+  DoorAnimationFrameTime: 0.2
+  DoorIsOpen: 0
   BusSpriteRenderer: {fileID: 318387651}
   DoorSpriteRenderer: {fileID: 1828026347}
-  DoorIsOpen: 0
 --- !u!1 &334119668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4061,6 +4061,7 @@ GameObject:
   m_Component:
   - component: {fileID: 334119670}
   - component: {fileID: 334119669}
+  - component: {fileID: 334119671}
   m_Layer: 0
   m_Name: SuccessSFX
   m_TagString: Untagged
@@ -4178,6 +4179,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &334119671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334119668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5f8dd9a4205f4be8a8eb507ecbb346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &334230598
 GameObject:
   m_ObjectHideFlags: 0
