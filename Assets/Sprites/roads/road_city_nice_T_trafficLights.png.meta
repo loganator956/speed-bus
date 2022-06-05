@@ -36,6 +36,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -196,6 +197,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      road_city_nice_T_trafficLights_1: 8670189894848682397
+      road_city_nice_T_trafficLights_0: 4166936600462414817
+      road_city_nice_T_trafficLights_2: -4559055233285358358
+      road_city_nice_T_trafficLights_3: 2111273490347719509
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

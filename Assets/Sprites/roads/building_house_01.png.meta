@@ -60,6 +60,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -388,6 +389,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      building_house_01_6: 3895402389616106205
+      building_house_01_8: -7017886838196791849
+      building_house_01_11: -1493720689520119003
+      building_house_01_10: 256495628695123786
+      building_house_01_9: -6660036382558329378
+      building_house_01_1: -8546115813072797350
+      building_house_01_4: -6898115688228456012
+      building_house_01_5: 4378451359049946091
+      building_house_01_2: 6889604405768346816
+      building_house_01_7: 4971439600864646905
+      building_house_01_3: 8818855233484821758
+      building_house_01_0: 1479583479603538552
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

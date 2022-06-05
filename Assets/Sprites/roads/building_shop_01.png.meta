@@ -60,6 +60,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -388,6 +389,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      building_shop_01_2: 5205515093385405101
+      building_shop_01_4: 1603697541637097096
+      building_shop_01_0: -8332391198664091860
+      building_shop_01_11: 2040862187688265635
+      building_shop_01_1: 8112790056157160942
+      building_shop_01_10: 2692866611823626995
+      building_shop_01_6: -136850001928264987
+      building_shop_01_5: 3837667025567776853
+      building_shop_01_8: -4478403833314615131
+      building_shop_01_7: -411517850699335993
+      building_shop_01_9: 7184389350502832965
+      building_shop_01_3: 794148477705328689
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

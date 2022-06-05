@@ -36,6 +36,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -196,6 +197,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      ground_blend_grass-sand_bend_0: 5391086653653799195
+      ground_blend_grass-sand_bend_3: -6116918590223626643
+      ground_blend_grass-sand_bend_1: 8491075725645477482
+      ground_blend_grass-sand_bend_2: 4037188483832778249
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
