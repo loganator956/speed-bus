@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TopDownCarController : MonoBehaviour
@@ -20,12 +18,6 @@ public class TopDownCarController : MonoBehaviour
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
 
     // Update is called once per frame
@@ -63,6 +55,9 @@ public class TopDownCarController : MonoBehaviour
         _rigidbody2D.MoveRotation(rotationAngle);
     }
 
+    /// <summary>
+    /// Reduces orthogonal velocity (left/right basically)
+    /// </summary>
     private void ReduceOrthogonalVelocity()
     {
         Vector2 forwardVelocity = transform.up * Vector2.Dot(_rigidbody2D.velocity, transform.up);
