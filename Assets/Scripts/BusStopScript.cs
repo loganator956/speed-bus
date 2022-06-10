@@ -66,7 +66,7 @@ public class BusStopScript : MonoBehaviour
                     _hasShownPopup = true;
                     playerPreviousVelocity = playerRigidbody2D.velocity;
                     playerRigidbody2D.velocity = Vector2.zero;
-                    TopDownCarController.EnableDriving = false;
+                    /*TopDownCarController.EnableDriving = false;*/
                     _slowDownText.enabled = false;
                     _busStopManager.ShowSliderPopup().AddListener(OnTimingPopupFinish);
                 }
@@ -103,7 +103,7 @@ public class BusStopScript : MonoBehaviour
         {
             playerRigidbody2D = other.attachedRigidbody;
             _isEntered = true;
-            PassengersReceived += other.GetComponent<PlayerController>().AttemptOffloadPassengers(PassengerRequest - PassengersReceived);
+            /*PassengersReceived += other.GetComponent<PlayerController>().AttemptOffloadPassengers(PassengerRequest - PassengersReceived);*/
             FindObjectOfType<GameController>().CheckStopsSatisfiedEvent.Invoke(); // invoking a separate event instead of when the player RiderCount value changes due to the order of which things are executed
         }
     }
@@ -123,12 +123,12 @@ public class BusStopScript : MonoBehaviour
         playerRigidbody2D.velocity = playerPreviousVelocity; // reapply previous velocity
         _hasShownPopup = false;
         _cooldown = 10f;
-        TopDownCarController.EnableDriving = true;
+        /*TopDownCarController.EnableDriving = true;*/
 
         // TODO: Do the actual loading up of passengers
         int numberOfPassengers = Mathf.FloorToInt(NumberOfPassengersWaiting * percentageOfPassengers);
         NumberOfPassengersWaiting -= numberOfPassengers;
-        PlayerController.RiderCount += numberOfPassengers;
+        /*PlayerController.RiderCount += numberOfPassengers;*/
     }
 }
 

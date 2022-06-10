@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         // register listeners
-        PlayerController.RiderCountChangedEvent.AddListener(CheckStopsSatisfied);
+        /*PlayerController.RiderCountChangedEvent.AddListener(CheckStopsSatisfied);*/
         PlayerStageChangedEvent.AddListener(GameStage_Changed);
         CheckStopsSatisfiedEvent.AddListener(CheckStopsSatisfied);
         stops = GameObject.FindObjectsOfType<BusStopScript>();
