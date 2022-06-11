@@ -7,7 +7,6 @@ public class TopDownVehicleController : MonoBehaviour
 {
     public float DriftFactor = 0.55f;
     public float AccelerationSpeed = 40f;
-    public float TurnSpeed = 3.5f;
     public float DecelerateFactor = 0.05f;
     public float MaxTurnSpeed = 5.0f;
 
