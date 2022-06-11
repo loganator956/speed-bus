@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ButtonPromptsSpritesManager : MonoBehaviour
 {
@@ -13,8 +14,9 @@ public class ButtonPromptsSpritesManager : MonoBehaviour
         {
             PromptSprites.Add(sprite.name, sprite);
         }
-        Debug.Log(PromptSprites.Count);
     }
+
+    public int CurrentDevice { get; private set; }
 
     // Update is called once per frame
     void Update()
