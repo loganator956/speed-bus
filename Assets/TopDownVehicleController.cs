@@ -10,7 +10,8 @@ public class TopDownVehicleController : MonoBehaviour
     public float DecelerateFactor = 0.05f;
     public float MaxTurnSpeed = 5.0f;
 
-    private MainControls mainControls;
+    private PlayerInput _playerInput;
+    private InputAction _moveAction;
 
     private Rigidbody2D _rigidbody2D;
 
@@ -20,15 +21,18 @@ public class TopDownVehicleController : MonoBehaviour
 
     private void Awake()
     {
-        mainControls = new MainControls();
-        mainControls.Enable();
+        _playerInput = GetComponent<PlayerInput>();
+        _playerInput.onControlsChanged += OnControlsChanged;
+
+        _moveAction = _playerInput.actions["Movement"];
+
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 dirInput = mainControls.Bus.Movement.ReadValue<Vector2>();
+        Vector2 dirInput = _moveAction.ReadValue<Vector2>();        
 
         if (dirInput.magnitude > SteerAngleDeadzone)
         {
@@ -38,6 +42,11 @@ public class TopDownVehicleController : MonoBehaviour
         }
 
         accelerationInput = GetAccelerationFromInput(dirInput);
+    }
+
+    private void OnControlsChanged(PlayerInput obj)
+    {
+        Debug.Log($"Changed Controls: Now using {_playerInput.currentControlScheme}");
     }
 
     private void FixedUpdate()
