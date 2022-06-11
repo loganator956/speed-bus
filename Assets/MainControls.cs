@@ -35,6 +35,15 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""65e348cb-e569-4f3d-979f-978a32fb522c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -150,17 +159,6 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""319ed403-6e05-4b9c-a8b9-eefb8e0029b4"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""2D Vector"",
                     ""id"": ""0a29ba51-2b82-4b7c-9efd-70edbd7ba41f"",
                     ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
@@ -268,6 +266,28 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e7bae38-2fe0-485d-9495-1979144eafd2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""gamepad"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4c3a564-93cd-4556-aad5-558b11510927"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -305,6 +325,7 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
         // Bus
         m_Bus = asset.FindActionMap("Bus", throwIfNotFound: true);
         m_Bus_Movement = m_Bus.FindAction("Movement", throwIfNotFound: true);
+        m_Bus_Action = m_Bus.FindAction("Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -365,11 +386,13 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Bus;
     private IBusActions m_BusActionsCallbackInterface;
     private readonly InputAction m_Bus_Movement;
+    private readonly InputAction m_Bus_Action;
     public struct BusActions
     {
         private @MainControls m_Wrapper;
         public BusActions(@MainControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Bus_Movement;
+        public InputAction @Action => m_Wrapper.m_Bus_Action;
         public InputActionMap Get() { return m_Wrapper.m_Bus; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -382,6 +405,9 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_BusActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_BusActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_BusActionsCallbackInterface.OnMovement;
+                @Action.started -= m_Wrapper.m_BusActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_BusActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_BusActionsCallbackInterface.OnAction;
             }
             m_Wrapper.m_BusActionsCallbackInterface = instance;
             if (instance != null)
@@ -389,6 +415,9 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
             }
         }
     }
@@ -414,5 +443,6 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
     public interface IBusActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
     }
 }
