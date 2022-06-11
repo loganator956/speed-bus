@@ -9,6 +9,7 @@ public class TopDownVehicleController : MonoBehaviour
     public float AccelerationSpeed = 40f;
     public float TurnSpeed = 3.5f;
     public float DecelerateFactor = 0.05f;
+    public float MaxTurnSpeed = 5.0f;
 
     private MainControls mainControls;
 
@@ -33,11 +34,13 @@ public class TopDownVehicleController : MonoBehaviour
         if (dirInput.magnitude > SteerAngleDeadzone)
         {
             Quaternion rotation = GetRotationFromInput(dirInput);
-            _rigidbody2D.MoveRotation(Quaternion.Lerp(transform.rotation, rotation, 0.2f));
+            float angle = Quaternion.Angle(rotation, transform.rotation);
+            Debug.Log(angle);
+            Debug.Log(MaxTurnSpeed / angle);
+            _rigidbody2D.MoveRotation(Quaternion.Lerp(transform.rotation, rotation, MaxTurnSpeed / angle/*0.2f*/));
         }
 
         accelerationInput = GetAccelerationFromInput(dirInput);
-        Debug.Log(accelerationInput);
     }
 
     private void FixedUpdate()

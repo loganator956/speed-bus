@@ -13288,6 +13288,7 @@ MonoBehaviour:
   AccelerationSpeed: 40
   TurnSpeed: 3.5
   DecelerateFactor: 0.995
+  MaxTurnSpeed: 5
 --- !u!1 &1026394468
 GameObject:
   m_ObjectHideFlags: 0
