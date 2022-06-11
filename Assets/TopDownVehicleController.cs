@@ -34,8 +34,6 @@ public class TopDownVehicleController : MonoBehaviour
         {
             Quaternion rotation = GetRotationFromInput(dirInput);
             float angle = Quaternion.Angle(rotation, transform.rotation);
-            Debug.Log(angle);
-            Debug.Log(MaxTurnSpeed / angle);
             _rigidbody2D.MoveRotation(Quaternion.Lerp(transform.rotation, rotation, MaxTurnSpeed / angle/*0.2f*/));
         }
 
