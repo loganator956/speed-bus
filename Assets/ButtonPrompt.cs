@@ -8,6 +8,8 @@ namespace SpeedBus.GUI.ButtonPrompts
 {
     public class ButtonPrompt : MonoBehaviour
     {
+        // TODO: make this integrate with the input system or whatever
+        // TODO: remove the style of the prompt and replace it with just the 11 21 31 12 22 32 grid references things
         public ButtonPromptImage PromptImage;
         public ButtonPromptText PromptText;
         public void SetButton(string text, ButtonPromptButtonInfo info)
