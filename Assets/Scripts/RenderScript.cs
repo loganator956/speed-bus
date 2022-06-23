@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class RenderScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            ScreenCapture.CaptureScreenshot("screen.png", 4);
+            ScreenCapture.CaptureScreenshot($"SpeedBus-{DateTime.Now.ToString("O")}.png", 4);
         }
     }
 }
