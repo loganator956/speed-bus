@@ -11,6 +11,10 @@ public class TopDownVehicleController : MonoBehaviour
     public float MaxTurnSpeed = 5.0f;
 
     private PlayerInput _playerInput;
+    public PlayerInput PlayerInput
+    {
+        get { return _playerInput; }
+    }
     private InputAction _moveAction;
 
     private Rigidbody2D _rigidbody2D;
