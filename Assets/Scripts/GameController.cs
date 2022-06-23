@@ -7,101 +7,52 @@ using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
-    private int _currentStage = 0;
-    public int CurrentStage
-    {
-        get { return _currentStage; }
-        set
-        {
-            if (value > MaxStage)
-            {
-                GameFinishedEvent.Invoke();
-            }
-            else
-            {
-                _currentStage = value;
-                PlayerStageChangedEvent.Invoke();
-            }
-        }
-    }
-    public const int MaxStage = 5; // limit to 10 just for the game jam build
+    public BusStop[] busStops { get; private set; }
+    
+    private float _totalWeighting = 0;
 
-    [Header("Events")]
-    public UnityEvent PlayerStageChangedEvent, GameFinishedEvent, CheckStopsSatisfiedEvent;
     private void Awake()
     {
-        // register listeners
-        /*PlayerController.RiderCountChangedEvent.AddListener(CheckStopsSatisfied);*/
-        PlayerStageChangedEvent.AddListener(GameStage_Changed);
-        CheckStopsSatisfiedEvent.AddListener(CheckStopsSatisfied);
-        stops = GameObject.FindObjectsOfType<BusStopScript>();
-        GameFinishedEvent.AddListener(GameFinished);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        CurrentStage++;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    BusStopScript[] stops;
-
-    public int GetRemainingStops()
-    {
-        int count = 0;
-        foreach (BusStopScript stop in stops)
+        // find all the bus stops
+        busStops = FindObjectsOfType<BusStop>();
+        
+        foreach(BusStop stop in busStops)
         {
-            if (!stop.CheckSatisfication()) { count++; };
+            _totalWeighting += stop.Weighting;
         }
-        return count;
     }
 
-    void CheckStopsSatisfied()
+    private void Start()
     {
-        bool success = true;
-        // BusStopScript[] stops = GameObject.FindObjectsOfType<BusStopScript>();
-        foreach (BusStopScript stop in stops)
+        StartGame();
+    }
+
+    List<Person> people = new List<Person>();
+
+    public int GetTotalPeople()
+    {
+        return people.Count;
+    }
+
+    private void StartGame()
+    {
+        // TODO: Change this to be dynamically set
+        float NumberOfPassengersThisRound = 10;
+        foreach(BusStop busStop in busStops)
         {
-            if (!stop.CheckSatisfication())
+            people.AddRange(busStop.GeneratePeople(Mathf.CeilToInt((busStop.Weighting / _totalWeighting) * NumberOfPassengersThisRound)));
+        }
+        System.Random random = new System.Random();
+        foreach(Person person in people)
+        {
+            while(person.WantedStop == null)
             {
-                success = false;
+                BusStop randomStop = busStops[random.Next(busStops.Length)];
+                if (randomStop != person.CurrentStop)
+                {
+                    person.WantedStop = randomStop;
+                }
             }
         }
-
-        if (success)
-        {
-            // all stops are satisfied
-            CurrentStage++;
-        }
-        if (!success)
-        {
-            Debug.Log("Not completed yet");
-        }
-        if (success)
-        {
-            Debug.Log("Completed a stage. Now moving onto stage: " + CurrentStage);
-        }
-    }
-
-    void GameStage_Changed()
-    {
-        /*
-        Iterate through each bus stop and initialize their correct values for the stage
-        */
-
-        foreach (BusStopScript stop in GameObject.FindObjectsOfType<BusStopScript>())
-        {
-            stop.PassengerRequest = Convert.ToInt32(stop.PassengerRequestCurve.Evaluate(CurrentStage));
-            stop.NumberOfPassengersDefault = stop.NumberOfPassengersWaiting = Convert.ToInt32(stop.PassengerSupplyCurve.Evaluate(CurrentStage));
-        }
-    }
-
-    void GameFinished()
-    {
-        SceneManager.LoadScene(2);
     }
 }
