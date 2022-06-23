@@ -20,6 +20,7 @@ public class DebugTextScript : MonoBehaviour
 
         // register event handlers
         _topDownVehicleController.PlayerInput.onControlsChanged += ctx => UpdateData(false);
+        UpdateData(true);
     }
 
     private float _timer = 0f;
@@ -48,6 +49,7 @@ public class DebugTextScript : MonoBehaviour
         // do non physics things here
         _data["Player.Velocity"] = _rigidbody2D.velocity;
         _data["Player.Input.Scheme"] = _topDownVehicleController.PlayerInput.currentControlScheme;
+        _data["Game.People.Count"] = _gameController.GetTotalPeople();
         if (includePhysics)
         {
             // do physics things here
@@ -64,6 +66,8 @@ public class DebugTextScript : MonoBehaviour
         _text.text = $"<b>Player Stats</b>" +
             $"\nPlayerInput Scheme = <color={ColourBlue}>{(string)_data["Player.Input.Scheme"]}</color>" +
             $"\nPlayerController Velocity = <color={ColourBlue}>{((Vector2)_data["Player.Velocity"]).ToString("")}</color> ({((Vector2)_data["Player.Velocity"]).magnitude.ToString("0.00")} m/s)" +
-            $"\nPlayerController Acceleration = <color={ColourBlue}>{((float)_data["Player.Acceleration"]).ToString("0.00")} m/s²</color>";
+            $"\nPlayerController Acceleration = <color={ColourBlue}>{((float)_data["Player.Acceleration"]).ToString("0.00")} m/s²</color>" +
+            $"\n<b>Game Stats</b>" +
+            $"\nPeople Count = <color={ColourBlue}>{((int)_data["Game.People.Count"]).ToString()}</color>";
     }
 }
