@@ -9,85 +9,76 @@ namespace SpeedBus.Gameplay
 {
     public class GameController : MonoBehaviour
     {
-        public BusStop[] busStops { get; private set; }
-
-        private float _totalWeighting = 0;
+        public static UnityEvent GameTickEvent = new UnityEvent();
         public static System.Random Randomiser;
+
+        private float[] _stopCumulativeWeightings;
+        private BusStop[] _stops;
 
         private void Awake()
         {
             Randomiser = new System.Random();
-            // find all the bus stops
-            busStops = FindObjectsOfType<BusStop>();
-
-            foreach (BusStop stop in busStops)
-            {
-                _totalWeighting += stop.Weighting;
-            }
         }
 
         private void Start()
         {
-            StartGame();
+            BalanceBusStops();
         }
 
-        List<Person> people = new List<Person>();
-
-        public int GetTotalPeople()
+        private void BalanceBusStops()
         {
-            return people.Count;
-        }
-
-        private void StartGame()
-        {
-            /*// TODO: Change this to be dynamically set
-            float NumberOfPassengersThisRound = 10;
-            foreach(BusStop busStop in busStops)
+            BusStop[] stops = FindObjectsOfType<BusStop>();
+            _stops = stops;
+            float totalTargetWeighting = 0f;
+            foreach(BusStop stop in stops)
             {
-                people.AddRange(busStop.GeneratePeople(Mathf.CeilToInt((busStop.Weighting / _totalWeighting) * NumberOfPassengersThisRound)));
+                totalTargetWeighting += stop.TargetWeighting;
             }
-            System.Random random = new System.Random();
-            foreach(Person person in people)
+            float cumulativeValue = 0f;
+            _stopCumulativeWeightings = new float[stops.Length];
+            for(int i = 0; i < stops.Length; i++)
             {
-                while(person.WantedStop == null)
+                _stopCumulativeWeightings[i] = cumulativeValue + (stops[i].TargetWeighting / totalTargetWeighting);
+                cumulativeValue = _stopCumulativeWeightings[i];
+            }
+        }
+
+        private float tickTimer = 0f;
+        private const float TickFrequency = 1f; // every x seconds
+        private void Update()
+        {
+            tickTimer += Time.deltaTime;
+            if (tickTimer > TickFrequency)
+            {
+                tickTimer = 0f;
+                GameTickEvent.Invoke();
+            }
+        }
+
+        public BusStop SelectRandomBusStop()
+        {
+            BusStop selection = null;
+
+            double roll = Randomiser.NextDouble();
+
+            for (int i = 0; i < _stopCumulativeWeightings.Length; i++)
+            {
+                if (roll < _stopCumulativeWeightings[i])
                 {
-                    BusStop randomStop = busStops[random.Next(busStops.Length)];
-                    if (randomStop != person.CurrentStop)
-                    {
-                        person.WantedStop = randomStop;
-                    }
+                    selection = _stops[i];
                 }
-            }*/
-            SelectRandomStop();
+            }
+
+            return selection;
         }
 
-        /// <summary>
-        /// Select a random bus stop, taking into consideration the weighting the stop has been given
-        /// </summary>
-        /// <returns>A random bus stop</returns>
-        /// <exception cref="BusStopNotFoundException">Was unable to find a bus stop</exception>
-        private BusStop SelectRandomStop()
+        public BusStop SelectRandomBusStop(BusStop ignoredStop)
         {
-            float[] chances = new float[busStops.Length];
-            float totalWeighting = 0;
-            for (int i = 0; i < chances.Length; i++)
+            while (true)
             {
-                chances[i] = busStops[i].Weighting;
-                totalWeighting += chances[i];
+                BusStop selected = SelectRandomBusStop();
+                if (selected != ignoredStop) return selected;
             }
-            for (int i = 0; i < chances.Length; i++)
-            {
-                chances[i] /= totalWeighting;
-                if (i > 0) { chances[i] += chances[i - 1]; }; // makes chances cumulative
-            }
-
-            double random = Randomiser.NextDouble();
-
-            for (int i = chances.Length - 1; i >= 0; i--)
-            {
-                if (chances[i] > random) { return busStops[i]; };
-            }
-            throw new BusStopNotFoundException("Cannot find bus stop :(");
         }
     }
 }
