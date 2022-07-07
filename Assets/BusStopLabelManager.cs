@@ -28,7 +28,7 @@ namespace SpeedBus.GUI
             for (int i = 0; i < labels.Count; i++)
             {
                 labels[i].GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(stops[i].transform.position);
-                labels[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{stops[i].DisplayName} ({stops[i].PassengerCount.ToString()})";
+                labels[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{stops[i].DisplayName} ({stops[i].WaitingPassengers.Count})";
             }
         }
     }
