@@ -66,6 +66,7 @@ namespace SpeedBus.Gameplay
                 if (roll < _stopCumulativeWeightings[i])
                 {
                     selection = _stops[i];
+                    break;
                 }
             }
 
