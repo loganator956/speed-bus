@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using SpeedBus.Gameplay;
+using SpeedBus.GUI;
 
 public class TopDownVehicleController : MonoBehaviour
 {
@@ -65,6 +66,8 @@ public class TopDownVehicleController : MonoBehaviour
         }
     }
 
+    private BusStop _currentStop = null;
+
     private bool _isStoppedAtStop = false;
     public bool IsStoppedAtStop
     {
@@ -79,9 +82,15 @@ public class TopDownVehicleController : MonoBehaviour
         }
     }
 
+    public GameObject ChanceBarPrefab;
+
     // Update is called once per frame
     void Update()
     {
+        if (_stopCooldown > 0)
+        {
+            _stopCooldown -= Time.deltaTime;
+        }
         if (EnableMovement)
         {
             Vector2 dirInput = _moveAction.ReadValue<Vector2>();
@@ -113,19 +122,85 @@ public class TopDownVehicleController : MonoBehaviour
             _decelerationInput = 0.0f; // lock vehicle
         }
 
-        if (IsInStop && _rigidbody2D.velocity.magnitude < 0.1f)
+        if (IsInStop && _rigidbody2D.velocity.magnitude < 0.1f && _stopCooldown <= 0)
         {
             IsStoppedAtStop = true;
         }
     }
 
+    private GameObject _chanceBarInstance;
+
+    public RectTransform ChanceBarParentReference;
+
     private void OnStopAtStopChanged(bool val)
     {
-        if (val)
+        if (val && _stopCooldown <= 0)
         {
             Debug.Log("Player stopped at stop");
             EnableMovement = false;
+            _chanceBarInstance = Instantiate(ChanceBarPrefab, ChanceBarParentReference);
+            ChanceBar bar = _chanceBarInstance.GetComponent<ChanceBar>();
+            InputAction actionAction = _playerInput.actions["Action"];
+            actionAction.Enable();
+            actionAction.started += ctx => bar.ButtonPressed();
+            bar.BadRangeSize = 35;
+            bar.GoodRangeSize = 20;
+            bar.BarSpeed = 1f;
+            bar.UpdateBar();
+            bar.OnBarSubmission.AddListener(OnBarSubmitted);
         }
+        else if (!val)
+        {
+            _stopCooldown = 5f;
+        }
+    }
+
+    private float _stopCooldown = 0f;
+
+    private void OnBarSubmitted(double t)
+    {
+        ChanceBar bar = _chanceBarInstance.GetComponent<ChanceBar>();
+        float b1 = (bar.BadRangeSize / 2f) / 100f; // lower than this value is in the bad range
+        float b2 = 1 - b1; // higher than this value is in the bad range
+
+        float g1 = (0.5f - (bar.GoodRangeSize / 2f) / 100f); // if between the g1 and g2 then that is best
+        float g2 = (0.5f + (bar.GoodRangeSize / 2f) / 100f);
+
+        float val = 0f;
+
+        if (t < b1 || t > b2)
+        {
+            Debug.Log("Bad");
+            val = 0;
+        }
+        else if (t > g1 && t < g2)
+        {
+            Debug.Log("Excellent");
+            val = 1;
+        }
+        else
+        {
+            Debug.Log("Okay");
+            val = 1 - (Mathf.Abs((float)t - 0.5f) * 2);
+        }
+        val = Mathf.Clamp01(val); // ensure that value is between 0 and 1
+
+        // TODO: Move passengers between lists
+        int passengerCount = _currentStop.WaitingPassengers.Count;
+        int passengersToPickup = Mathf.CeilToInt((float)passengerCount * val);
+        for (int i = 0; i < passengersToPickup; i++)
+        {
+            Passenger passenger = _currentStop.WaitingPassengers[0];
+            Passengers.Add(passenger);
+            _currentStop.WaitingPassengers.RemoveAt(0);
+        }
+
+        Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
+        
+        EnableMovement = true;
+
+        Destroy(_chanceBarInstance);
+        IsStoppedAtStop = false;
     }
 
     private void OnControlsChanged(PlayerInput obj)
@@ -167,9 +242,11 @@ public class TopDownVehicleController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponentInParent<BusStop>() != null)
+        BusStop stop = collision.GetComponentInParent<BusStop>();
+        if (stop != null)
         {
             IsInStop = true;
+            _currentStop = stop;
         }
     }
 
@@ -178,6 +255,7 @@ public class TopDownVehicleController : MonoBehaviour
         if (collision.GetComponentInParent<BusStop>() != null)
         {
             IsInStop = false;
+            _currentStop = null;
         }
     }
 }
