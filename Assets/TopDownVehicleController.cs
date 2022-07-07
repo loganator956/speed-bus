@@ -81,7 +81,6 @@ public class TopDownVehicleController : MonoBehaviour
             }
         }
     }
-
     public GameObject ChanceBarPrefab;
 
     // Update is called once per frame
@@ -156,6 +155,7 @@ public class TopDownVehicleController : MonoBehaviour
     }
 
     private float _stopCooldown = 0f;
+    public float StopCooldown { get { return _stopCooldown; } }
 
     private void OnBarSubmitted(double t)
     {
@@ -185,7 +185,6 @@ public class TopDownVehicleController : MonoBehaviour
         }
         val = Mathf.Clamp01(val); // ensure that value is between 0 and 1
 
-        // TODO: Move passengers between lists
         int passengerCount = _currentStop.WaitingPassengers.Count;
         int passengersToPickup = Mathf.CeilToInt((float)passengerCount * val);
         for (int i = 0; i < passengersToPickup; i++)
@@ -194,6 +193,8 @@ public class TopDownVehicleController : MonoBehaviour
             Passengers.Add(passenger);
             _currentStop.WaitingPassengers.RemoveAt(0);
         }
+
+        // TODO: Unload passengers
 
         Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
         
