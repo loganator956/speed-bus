@@ -52,7 +52,10 @@ namespace SpeedBus.Debugging
             // do non physics things here
             _data["Player.Velocity"] = _rigidbody2D.velocity;
             _data["Player.Input.Scheme"] = _topDownVehicleController.PlayerInput.currentControlScheme;
-            /*_data["Game.People.Count"] = _gameController.GetTotalPeople();*/
+            _data["Player.Bus.StoppedAtStop"] = _topDownVehicleController.IsStoppedAtStop;
+            _data["Player.Bus.InBusStop"] = _topDownVehicleController.IsInStop;
+            _data["Player.Bus.StoppingCooldown"] = _topDownVehicleController.StopCooldown;
+            _data["Player.Bus.PassengerCount"] = _topDownVehicleController.Passengers.Count;
             if (includePhysics)
             {
                 // do physics things here
@@ -70,6 +73,10 @@ namespace SpeedBus.Debugging
                 $"\nPlayerInput Scheme = <color={ColourBlue}>{(string)_data["Player.Input.Scheme"]}</color>" +
                 $"\nPlayerController Velocity = <color={ColourBlue}>{((Vector2)_data["Player.Velocity"]).ToString("")}</color> ({((Vector2)_data["Player.Velocity"]).magnitude.ToString("0.00")} m/s)" +
                 $"\nPlayerController Acceleration = <color={ColourBlue}>{((float)_data["Player.Acceleration"]).ToString("0.00")} m/s²</color>" +
+                $"\nPlayerController StoppedAtStop = <color={ColourBlue}>{((bool)_data["Player.Bus.StoppedAtStop"]).ToString()}</color>" +
+                $"\nPlayerController InsideBusStop = <color={ColourBlue}>{((bool)_data["Player.Bus.InBusStop"]).ToString()}</color>" +
+                $"\nPlayerController StopCooldown = <color={ColourBlue}>{((float)_data["Player.Bus.StoppingCooldown"]).ToString("0.00")}s</color>" +
+                $"\nPlayerController PassengersCount = <color={ColourBlue}>{((int)_data["Player.Bus.PassengerCount"]).ToString()}</color>" +
                 $"\n<b>Game Stats</b>"/* +
                 $"\nPeople Count = <color={ColourBlue}>{((int)_data["Game.People.Count"]).ToString()}</color>"*/;
         }
