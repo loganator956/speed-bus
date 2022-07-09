@@ -54,8 +54,6 @@ namespace SpeedBus.GUI
                 if (currentT < 0f) { _direction = true; };
             }
             Slider.anchoredPosition = new Vector2(Mathf.Lerp(-maxWidth / 2f, maxWidth / 2f, TMoveCurve.Evaluate((float)currentT)), 0);
-
-            Debug.Log(1 - (Mathf.Abs((float)currentT - 0.5f) * 2));
         }
 
         public void ButtonPressed()

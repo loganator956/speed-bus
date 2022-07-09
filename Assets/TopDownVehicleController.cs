@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using SpeedBus.Gameplay;
 using SpeedBus.GUI;
+using UnityEngine.Events;
 
 public class TopDownVehicleController : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class TopDownVehicleController : MonoBehaviour
     private const float SteerAngleDeadzone = 0.05f;
 
     public List<Passenger> Passengers = new List<Passenger>();
+
+    public UnityEvent<Passenger> OnPassengerUnloaded, OnPassengerLoaded;
+    public UnityEvent<int> OnChanceBarResult; // -1 bad, 0 okay, +1 excellent
 
     private void Awake()
     {
@@ -172,16 +176,19 @@ public class TopDownVehicleController : MonoBehaviour
         {
             Debug.Log("Bad");
             val = 0;
+            OnChanceBarResult.Invoke(-1);
         }
         else if (t > g1 && t < g2)
         {
             Debug.Log("Excellent");
             val = 1;
+            OnChanceBarResult.Invoke(1);
         }
         else
         {
             Debug.Log("Okay");
             val = 1 - (Mathf.Abs((float)t - 0.5f) * 2);
+            OnChanceBarResult.Invoke(0);
         }
         val = Mathf.Clamp01(val); // ensure that value is between 0 and 1
 
@@ -192,9 +199,24 @@ public class TopDownVehicleController : MonoBehaviour
             Passenger passenger = _currentStop.WaitingPassengers[0];
             Passengers.Add(passenger);
             _currentStop.WaitingPassengers.RemoveAt(0);
+            OnPassengerLoaded.Invoke(passenger);
         }
 
-        // TODO: Unload passengers
+        // only unload passengers if you don't get a BAD
+        if (val != 0)
+        {
+            // iterate through all passengers and unload the ones that have this stop as the target stop
+            for (int i = Passengers.Count - 1; i >= 0; i--)
+            {
+                Passenger passenger = Passengers[i];
+                if (passenger.TargetStop == _currentStop)
+                {
+                    Passengers.RemoveAt(i);
+                    // TODO: Create an event for successful drop off of passenger
+                    OnPassengerUnloaded.Invoke(passenger);
+                }
+            }
+        }
 
         Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
         
