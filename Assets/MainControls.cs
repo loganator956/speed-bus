@@ -44,6 +44,24 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AltAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea6efd0e-7b52-43eb-8454-00aba16df2b8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""94c3ba6e-4bae-4150-acd2-1fbd70076f53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -379,6 +397,17 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""152c1d46-fa51-4f4f-8c0a-211e9c29aaf9"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7e7bae38-2fe0-485d-9495-1979144eafd2"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -412,12 +441,78 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""88650b7d-1bdc-4afe-85bc-30eb77117f89"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard"",
+                    ""action"": ""AltAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30838e38-b286-43b3-933c-e6442ee54a9d"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard"",
+                    ""action"": ""AltAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ab731389-4566-4e21-9ba8-5b02795d419e"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""playstation controller"",
+                    ""action"": ""AltAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4285c817-8bff-4cf4-a9f4-052645fddbdb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""gamepad"",
+                    ""action"": ""AltAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ba3a903-58d7-4a90-8cc6-2ae83987fe51"",
                     ""path"": ""<DualShockGamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""playstation controller"",
-                    ""action"": ""Action"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ee2adf7-3ba3-4ac2-b13c-0886c6e590b2"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""988b9454-3f17-475d-9ab4-21c9156f7a4a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -469,6 +564,8 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
         m_Bus = asset.FindActionMap("Bus", throwIfNotFound: true);
         m_Bus_Movement = m_Bus.FindAction("Movement", throwIfNotFound: true);
         m_Bus_Action = m_Bus.FindAction("Action", throwIfNotFound: true);
+        m_Bus_AltAction = m_Bus.FindAction("AltAction", throwIfNotFound: true);
+        m_Bus_Cancel = m_Bus.FindAction("Cancel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -530,12 +627,16 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
     private IBusActions m_BusActionsCallbackInterface;
     private readonly InputAction m_Bus_Movement;
     private readonly InputAction m_Bus_Action;
+    private readonly InputAction m_Bus_AltAction;
+    private readonly InputAction m_Bus_Cancel;
     public struct BusActions
     {
         private @MainControls m_Wrapper;
         public BusActions(@MainControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Bus_Movement;
         public InputAction @Action => m_Wrapper.m_Bus_Action;
+        public InputAction @AltAction => m_Wrapper.m_Bus_AltAction;
+        public InputAction @Cancel => m_Wrapper.m_Bus_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Bus; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -551,6 +652,12 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 @Action.started -= m_Wrapper.m_BusActionsCallbackInterface.OnAction;
                 @Action.performed -= m_Wrapper.m_BusActionsCallbackInterface.OnAction;
                 @Action.canceled -= m_Wrapper.m_BusActionsCallbackInterface.OnAction;
+                @AltAction.started -= m_Wrapper.m_BusActionsCallbackInterface.OnAltAction;
+                @AltAction.performed -= m_Wrapper.m_BusActionsCallbackInterface.OnAltAction;
+                @AltAction.canceled -= m_Wrapper.m_BusActionsCallbackInterface.OnAltAction;
+                @Cancel.started -= m_Wrapper.m_BusActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_BusActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_BusActionsCallbackInterface.OnCancel;
             }
             m_Wrapper.m_BusActionsCallbackInterface = instance;
             if (instance != null)
@@ -561,6 +668,12 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
+                @AltAction.started += instance.OnAltAction;
+                @AltAction.performed += instance.OnAltAction;
+                @AltAction.canceled += instance.OnAltAction;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
         }
     }
@@ -596,5 +709,7 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
+        void OnAltAction(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
 }

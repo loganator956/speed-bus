@@ -16,6 +16,8 @@ public class TopDownVehicleController : MonoBehaviour
     public AnimationCurve DecelerateCurve;
     public float MaxTurnSpeed = 5.0f;
 
+    public AnimationCurve HappinessInfluenceCurve;
+
     private PlayerInput _playerInput;
     public PlayerInput PlayerInput
     {
@@ -87,6 +89,12 @@ public class TopDownVehicleController : MonoBehaviour
     }
     public GameObject ChanceBarPrefab;
 
+    private float _sittingStillT = 0f;
+    public const float SittingStillPenaltyThreshold = 6f;
+    private const float SittingStillDetectionThreshold = 0.5f;
+
+    public UnityEvent OnSittingStillPenalty = new UnityEvent();
+
     // Update is called once per frame
     void Update()
     {
@@ -96,6 +104,15 @@ public class TopDownVehicleController : MonoBehaviour
         }
         if (EnableMovement)
         {
+            if (_rigidbody2D.velocity.magnitude < SittingStillDetectionThreshold)
+            {
+                _sittingStillT += Time.deltaTime;
+                if (_sittingStillT > SittingStillPenaltyThreshold)
+                {
+                    _sittingStillT = 0f;
+                    OnSittingStillPenalty.Invoke();
+                }
+            }
             Vector2 dirInput = _moveAction.ReadValue<Vector2>();
 
             if (dirInput.magnitude > SteerAngleDeadzone)
@@ -145,7 +162,10 @@ public class TopDownVehicleController : MonoBehaviour
             ChanceBar bar = _chanceBarInstance.GetComponent<ChanceBar>();
             InputAction actionAction = _playerInput.actions["Action"];
             actionAction.Enable();
-            actionAction.started += ctx => bar.ButtonPressed();
+            actionAction.started += ctx => bar.ButtonPressed(ChanceBarResult.ResultType.Normal);
+            InputAction altActionAction = _playerInput.actions["AltAction"];
+            altActionAction.Enable();
+            altActionAction.started += ctx => bar.ButtonPressed(ChanceBarResult.ResultType.UnloadOnly);
             bar.BadRangeSize = 35;
             bar.GoodRangeSize = 20;
             bar.BarSpeed = 1f;
@@ -161,8 +181,10 @@ public class TopDownVehicleController : MonoBehaviour
     private float _stopCooldown = 0f;
     public float StopCooldown { get { return _stopCooldown; } }
 
-    private void OnBarSubmitted(double t)
+    private void OnBarSubmitted(ChanceBarResult result)
     {
+        double t = result.T;
+        // TODO: Allow unloading only
         ChanceBar bar = _chanceBarInstance.GetComponent<ChanceBar>();
         float b1 = (bar.BadRangeSize / 2f) / 100f; // lower than this value is in the bad range
         float b2 = 1 - b1; // higher than this value is in the bad range
@@ -192,14 +214,18 @@ public class TopDownVehicleController : MonoBehaviour
         }
         val = Mathf.Clamp01(val); // ensure that value is between 0 and 1
 
-        int passengerCount = _currentStop.WaitingPassengers.Count;
-        int passengersToPickup = Mathf.CeilToInt((float)passengerCount * val);
-        for (int i = 0; i < passengersToPickup; i++)
+        if (result.Type == ChanceBarResult.ResultType.Normal)
         {
-            Passenger passenger = _currentStop.WaitingPassengers[0];
-            Passengers.Add(passenger);
-            _currentStop.WaitingPassengers.RemoveAt(0);
-            OnPassengerLoaded.Invoke(passenger);
+            int passengerCount = _currentStop.WaitingPassengers.Count;
+            int passengersToPickup = Mathf.CeilToInt((float)passengerCount * val);
+            Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
+            for (int i = 0; i < passengersToPickup; i++)
+            {
+                Passenger passenger = _currentStop.WaitingPassengers[0];
+                Passengers.Add(passenger);
+                _currentStop.WaitingPassengers.RemoveAt(0);
+                OnPassengerLoaded.Invoke(passenger);
+            }
         }
 
         // only unload passengers if you don't get a BAD
@@ -217,9 +243,6 @@ public class TopDownVehicleController : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
-        
         EnableMovement = true;
 
         Destroy(_chanceBarInstance);

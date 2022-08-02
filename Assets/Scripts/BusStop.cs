@@ -14,11 +14,16 @@ namespace SpeedBus.Gameplay
         public List<Passenger> WaitingPassengers = new List<Passenger>();
 
         private GameController _gameController;
+        private TopDownVehicleController _topDownVehicleController;
+        private PlayerScoreController _playerScoreController;
 
         private void Awake()
         {
             _gameController = FindObjectOfType<GameController>();
             GameController.GameTickEvent.AddListener(OnGameTickEvent);
+
+            _topDownVehicleController = FindObjectOfType<TopDownVehicleController>();
+            _playerScoreController = FindObjectOfType<PlayerScoreController>();
         }
 
         private void OnGameTickEvent()
@@ -29,7 +34,11 @@ namespace SpeedBus.Gameplay
             {
                 Debug.Log($"Spawning passenger at {DisplayName} stop with a roll of {roll} and chance of {chance}");
                 Passenger passenger = new Passenger();
-                // TODO: Implement passengers choosing locations
+
+                // TODO: Add event listeners here
+                GameController.GameTickEvent.AddListener(passenger.GameTick);
+                _topDownVehicleController.OnSittingStillPenalty.AddListener(passenger.OnBusIdle_Invoked);
+                passenger.ScoreController = _playerScoreController;
 
                 passenger.TargetStop = _gameController.SelectRandomBusStop(this);
                 WaitingPassengers.Add(passenger);

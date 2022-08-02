@@ -41,20 +41,22 @@ namespace SpeedBus.Gameplay
 
         private void OnPassengerLoaded(Passenger passenger)
         {
-            // TODO: Determine if the wait was excessively long or not?
+            
         }
-
-        private const int AwardPassengerUnload = 2;
 
         private void OnPassengerUnloaded(Passenger passenger)
         {
-            // TODO: Determine if the passenger is happy or not
-            Score += AwardPassengerUnload;
+            Score += ScoreAndHappinessChanges.AwardPassengerUnload;
         }
 
         private void OnScoreChangedEvent(int delta)
         {
             Debug.Log($"Score has changed by {delta} to become {Score}");
+        }
+
+        public void ChangeScore(int amount)
+        {
+            Score += amount;
         }
     }
 }

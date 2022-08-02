@@ -13959,6 +13959,39 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxTurnSpeed: 5
+  HappinessInfluenceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.114739224
+      value: 0.2929103
+      inSlope: 2.3545723
+      outSlope: 2.3545723
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.20091994
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   OnPassengerUnloaded:
     m_PersistentCalls:
       m_Calls: []
@@ -13969,6 +14002,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ChanceBarPrefab: {fileID: 7043226502426265929, guid: b1aab0825663e6c458a78d07aeb1d1f1, type: 3}
+  OnSittingStillPenalty:
+    m_PersistentCalls:
+      m_Calls: []
   ChanceBarParentReference: {fileID: 660712788}
 --- !u!114 &1023292016
 MonoBehaviour:
@@ -24361,7 +24397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 127.5, y: 50}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &1828026345

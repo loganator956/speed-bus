@@ -11,7 +11,7 @@ namespace SpeedBus.GUI
         public float BadRangeSize = 10f; // in total, divided in half on either end of the bar
         public float GoodRangeSize = 5f;
 
-        public UnityEvent<double> OnBarSubmission = new UnityEvent<double>();
+        public UnityEvent<ChanceBarResult> OnBarSubmission = new UnityEvent<ChanceBarResult>();
 
         public RectTransform[] BadRegions;
         public RectTransform GoodRegion, SlideRegion, Slider;
@@ -56,9 +56,22 @@ namespace SpeedBus.GUI
             Slider.anchoredPosition = new Vector2(Mathf.Lerp(-maxWidth / 2f, maxWidth / 2f, TMoveCurve.Evaluate((float)currentT)), 0);
         }
 
-        public void ButtonPressed()
+        public void ButtonPressed(ChanceBarResult.ResultType rType)
         {
-            OnBarSubmission.Invoke(currentT);
+            ChanceBarResult result = new ChanceBarResult();
+            result.T = currentT;
+            result.Type = rType;
+            OnBarSubmission.Invoke(result);
         }
+    }
+
+    public struct ChanceBarResult
+    {
+        public double T;
+        public enum ResultType
+        {
+            Normal, UnloadOnly
+        }
+        public ResultType Type;
     }
 }
