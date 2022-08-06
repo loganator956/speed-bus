@@ -90,6 +90,7 @@ public class TopDownVehicleController : MonoBehaviour
     public GameObject ChanceBarPrefab;
 
     private float _sittingStillT = 0f;
+    public float t_SittingStillT { get { return _sittingStillT; } }
     public const float SittingStillPenaltyThreshold = 6f;
     private const float SittingStillDetectionThreshold = 0.5f;
 
@@ -112,6 +113,10 @@ public class TopDownVehicleController : MonoBehaviour
                     _sittingStillT = 0f;
                     OnSittingStillPenalty.Invoke();
                 }
+            }
+            else if (_sittingStillT > 0f)
+            {
+                _sittingStillT -= Time.deltaTime;
             }
             Vector2 dirInput = _moveAction.ReadValue<Vector2>();
 
@@ -222,6 +227,7 @@ public class TopDownVehicleController : MonoBehaviour
             for (int i = 0; i < passengersToPickup; i++)
             {
                 Passenger passenger = _currentStop.WaitingPassengers[0];
+                passenger.IsOnBus = true;
                 Passengers.Add(passenger);
                 _currentStop.WaitingPassengers.RemoveAt(0);
                 OnPassengerLoaded.Invoke(passenger);
@@ -237,8 +243,8 @@ public class TopDownVehicleController : MonoBehaviour
                 Passenger passenger = Passengers[i];
                 if (passenger.TargetStop == _currentStop)
                 {
+                    passenger.IsOnBus = false;
                     Passengers.RemoveAt(i);
-                    // TODO: Create an event for successful drop off of passenger
                     OnPassengerUnloaded.Invoke(passenger);
                 }
             }
