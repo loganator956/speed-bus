@@ -56,6 +56,7 @@ namespace SpeedBus.Gameplay
 
         public void ChangeScore(int amount)
         {
+            // TODO: Should make this take a Vector3 worldposition and a string message
             Score += amount;
         }
     }
