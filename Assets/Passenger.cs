@@ -72,7 +72,13 @@ namespace SpeedBus.Gameplay
         }
         public void OnBusIdle_Invoked()
         {
-            // TODO: Reduce happiness by idle amount
+            if (IsOnBus)
+            {
+                Debug.Log("Bus Idling");
+                int amount = ScoreAndHappinessChanges.BusIdlePenalty;
+                AddHappiness(amount);
+                ScoreController.ChangeScore(amount);
+            }
         }
         public void OnPassengerLongWait_Invoked()
         {
@@ -83,7 +89,7 @@ namespace SpeedBus.Gameplay
         public void OnBusReachAttraction_Invoked()
         {
             // TODO: Increase happiness
-            // TODO: Should do this in another go, requires another system
+            // TODO: Should do this in another go, requires another system (Attractions system)
         }
         public void OnBusThrillNearMiss_Invoked()
         {
