@@ -255,6 +255,30 @@ public class TopDownVehicleController : MonoBehaviour
         IsStoppedAtStop = false;
     }
 
+    public int GetNumberOfPassengersForTarget(BusStop target)
+    {
+        int count = 0;
+        foreach(Passenger passenger in Passengers)
+        {
+            if (passenger.TargetStop == target)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public float GetAveragePassengerHappiness()
+    {
+        float a = 0;
+        foreach(Passenger passenger in Passengers)
+        {
+            a += passenger.Happiness;
+        }
+        a /= (float)Passengers.Count;
+        return a;
+    }
+
     private void OnControlsChanged(PlayerInput obj)
     {
         Debug.Log($"Changed Controls: Now using {_playerInput.currentControlScheme}");

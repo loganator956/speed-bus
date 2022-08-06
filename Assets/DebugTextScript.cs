@@ -57,6 +57,7 @@ namespace SpeedBus.Debugging
             _data["Player.Bus.StoppingCooldown"] = _topDownVehicleController.StopCooldown;
             _data["Player.Bus.PassengerCount"] = _topDownVehicleController.Passengers.Count;
             _data["Player.Bus.SittingStillT"] = _topDownVehicleController.t_SittingStillT;
+            _data["Player.Bus.Passengers.AverageHappiness"] = _topDownVehicleController.GetAveragePassengerHappiness();
             if (includePhysics)
             {
                 // do physics things here
@@ -79,6 +80,7 @@ namespace SpeedBus.Debugging
                 $"\nPlayerController StopCooldown = <color={ColourBlue}>{((float)_data["Player.Bus.StoppingCooldown"]).ToString("0.00")}s</color>" +
                 $"\nPlayerController PassengersCount = <color={ColourBlue}>{((int)_data["Player.Bus.PassengerCount"]).ToString()}</color>" +
                 $"\nPlayerController SittingStillT = <color={ColourBlue}>{((float)_data["Player.Bus.SittingStillT"]).ToString("0.00")} s</color>" +
+                $"\nPlayerController Passenger Average Happiness = <color={ColourBlue}>{((float)_data["Player.Bus.Passengers.AverageHappiness"]).ToString("0.00")}</color>" +
                 $"\n<b>Game Stats</b>"/* +
                 $"\nPeople Count = <color={ColourBlue}>{((int)_data["Game.People.Count"]).ToString()}</color>"*/;
         }

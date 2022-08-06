@@ -12,6 +12,12 @@ namespace SpeedBus.GUI
 
         List<GameObject> labels = new List<GameObject>();
         BusStop[] stops;
+        TopDownVehicleController controller;
+
+        private void Awake()
+        {
+            controller = FindObjectOfType<TopDownVehicleController>();
+        }
 
         private void Start()
         {
@@ -28,7 +34,7 @@ namespace SpeedBus.GUI
             for (int i = 0; i < labels.Count; i++)
             {
                 labels[i].GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(stops[i].transform.position);
-                labels[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{stops[i].DisplayName} ({stops[i].WaitingPassengers.Count})";
+                labels[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{stops[i].DisplayName} ({stops[i].WaitingPassengers.Count}) ({controller.GetNumberOfPassengersForTarget(stops[i])})";
             }
         }
     }
