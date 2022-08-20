@@ -37,7 +37,7 @@ namespace SpeedBus.Gameplay
 
         private float _waitTimePenaltyTimer = 0f;
 
-        public const float WaitTimePenaltyThreshold = 60;
+        public const float WaitTimePenaltyThreshold = 30;
 
 
         private void _WaitTimePenaltyCounter(float delta)
@@ -83,6 +83,7 @@ namespace SpeedBus.Gameplay
         }
         public void OnPassengerLongWait_Invoked()
         {
+            Debug.Log("passenger long wait");
             int amount = ScoreAndHappinessChanges.PassengerWaitTooLongPenalty;
             AddHappiness(amount);
             ScoreController.ChangeScore(amount);
@@ -104,6 +105,5 @@ namespace SpeedBus.Gameplay
         {
 
         }
-
     }
 }

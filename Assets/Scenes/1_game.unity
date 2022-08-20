@@ -26828,6 +26828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa68155e496b2bc489e3163a57f8f46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAttractionBecomeAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttractionUsed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1968592189
 GameObject:
   m_ObjectHideFlags: 0
