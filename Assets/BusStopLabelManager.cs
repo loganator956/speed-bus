@@ -24,7 +24,9 @@ namespace SpeedBus.GUI
             stops = FindObjectsOfType<BusStop>();
             foreach (BusStop stop in stops)
             {
-                labels.Add(Instantiate(labelPrefab, transform));
+                GameObject newObj = Instantiate(labelPrefab, transform);
+                newObj.GetComponent<BusStopLabel>().RelatedBusStop = stop;
+                labels.Add(newObj);
             }
         }
 
