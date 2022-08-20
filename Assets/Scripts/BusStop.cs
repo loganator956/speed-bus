@@ -16,6 +16,7 @@ namespace SpeedBus.Gameplay
         private GameController _gameController;
         private TopDownVehicleController _topDownVehicleController;
         private PlayerScoreController _playerScoreController;
+        private AttractionManager _attractionManager;
 
         private void Awake()
         {
@@ -24,6 +25,8 @@ namespace SpeedBus.Gameplay
 
             _topDownVehicleController = FindObjectOfType<TopDownVehicleController>();
             _playerScoreController = FindObjectOfType<PlayerScoreController>();
+
+            _attractionManager = FindObjectOfType<AttractionManager>();
         }
 
         private void OnGameTickEvent()
@@ -38,6 +41,8 @@ namespace SpeedBus.Gameplay
                 // TODO: Add event listeners here
                 GameController.GameTickEvent.AddListener(passenger.GameTick);
                 _topDownVehicleController.OnSittingStillPenalty.AddListener(passenger.OnBusIdle_Invoked);
+                _attractionManager.OnAttractionUsed.AddListener(passenger.OnBusReachAttraction_Invoked);
+
                 passenger.ScoreController = _playerScoreController;
 
                 passenger.TargetStop = _gameController.SelectRandomBusStop(this);

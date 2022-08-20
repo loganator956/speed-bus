@@ -44,6 +44,8 @@ public class TopDownVehicleController : MonoBehaviour
         _moveAction = _playerInput.actions["Movement"];
 
         _rigidbody2D = GetComponent<Rigidbody2D>();
+
+        _attractionManager = FindObjectOfType<AttractionManager>();
     }
 
     float decelerateT = 0f;
@@ -73,6 +75,9 @@ public class TopDownVehicleController : MonoBehaviour
     }
 
     private BusStop _currentStop = null;
+    private Attraction _currentAttraction = null;
+
+    AttractionManager _attractionManager;
 
     private bool _isStoppedAtStop = false;
     public bool IsStoppedAtStop
@@ -218,41 +223,48 @@ public class TopDownVehicleController : MonoBehaviour
             OnChanceBarResult.Invoke(0);
         }
         val = Mathf.Clamp01(val); // ensure that value is between 0 and 1
+        // val will be 0->1 (where 0 is bad and 1 is good)
 
-        if (result.Type == ChanceBarResult.ResultType.Normal)
+        if (_currentStop != null)
         {
-            int passengerCount = _currentStop.WaitingPassengers.Count;
-            int passengersToPickup = Mathf.CeilToInt((float)passengerCount * val);
-            Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
-            for (int i = 0; i < passengersToPickup; i++)
+            if (result.Type == ChanceBarResult.ResultType.Normal)
             {
-                Passenger passenger = _currentStop.WaitingPassengers[0];
-                passenger.IsOnBus = true;
-                Passengers.Add(passenger);
-                _currentStop.WaitingPassengers.RemoveAt(0);
-                OnPassengerLoaded.Invoke(passenger);
-            }
-        }
-
-        // only unload passengers if you don't get a BAD
-        if (val != 0)
-        {
-            // iterate through all passengers and unload the ones that have this stop as the target stop
-            for (int i = Passengers.Count - 1; i >= 0; i--)
-            {
-                Passenger passenger = Passengers[i];
-                if (passenger.TargetStop == _currentStop)
+                int passengerCount = _currentStop.WaitingPassengers.Count;
+                int passengersToPickup = Mathf.CeilToInt((float)passengerCount * val);
+                Debug.Log($"Picking up {passengersToPickup} passengers from {_currentStop.DisplayName} stop");
+                for (int i = 0; i < passengersToPickup; i++)
                 {
-                    passenger.IsOnBus = false;
-                    Passengers.RemoveAt(i);
-                    OnPassengerUnloaded.Invoke(passenger);
+                    Passenger passenger = _currentStop.WaitingPassengers[0];
+                    passenger.IsOnBus = true;
+                    Passengers.Add(passenger);
+                    _currentStop.WaitingPassengers.RemoveAt(0);
+                    OnPassengerLoaded.Invoke(passenger);
+                }
+            }
+
+            // only unload passengers if you don't get a BAD
+            if (val != 0)
+            {
+                // iterate through all passengers and unload the ones that have this stop as the target stop
+                for (int i = Passengers.Count - 1; i >= 0; i--)
+                {
+                    Passenger passenger = Passengers[i];
+                    if (passenger.TargetStop == _currentStop)
+                    {
+                        passenger.IsOnBus = false;
+                        Passengers.RemoveAt(i);
+                        OnPassengerUnloaded.Invoke(passenger);
+                    }
                 }
             }
         }
-        EnableMovement = true;
-
+        else if (_currentAttraction != null)
+        {
+            _attractionManager.UseAttraction(val);
+        }
         Destroy(_chanceBarInstance);
         IsStoppedAtStop = false;
+        EnableMovement = true;
     }
 
     public int GetNumberOfPassengersForTarget(BusStop target)
@@ -319,10 +331,16 @@ public class TopDownVehicleController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         BusStop stop = collision.GetComponentInParent<BusStop>();
+        Attraction attraction = collision.GetComponentInParent<Attraction>();
         if (stop != null)
         {
             IsInStop = true;
             _currentStop = stop;
+        }
+        else if (attraction != null && _attractionManager.CurrentAttraction == attraction)
+        {
+            IsInStop = true;
+            _currentAttraction = attraction;
         }
     }
 
@@ -332,6 +350,11 @@ public class TopDownVehicleController : MonoBehaviour
         {
             IsInStop = false;
             _currentStop = null;
+        }
+        else if (collision.GetComponentInParent<Attraction>() != null)
+        {
+            IsInStop = false;
+            _currentAttraction = null;
         }
     }
 }

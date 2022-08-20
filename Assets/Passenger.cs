@@ -7,6 +7,7 @@ namespace SpeedBus.Gameplay
 {
     public class Passenger
     {
+        // Event listeners are added where Passengers are created (BusStop.cs)
         public Passenger()
         {
             OnPassengerLongWait.AddListener(OnPassengerLongWait_Invoked);
@@ -86,10 +87,14 @@ namespace SpeedBus.Gameplay
             AddHappiness(amount);
             ScoreController.ChangeScore(amount);
         }
-        public void OnBusReachAttraction_Invoked()
+        public void OnBusReachAttraction_Invoked(float t)
         {
-            // TODO: Increase happiness
-            // TODO: Should do this in another go, requires another system (Attractions system)
+            if (IsOnBus)
+            {
+                int amount = Mathf.CeilToInt(ScoreAndHappinessChanges.AttractionBonus * t);
+                AddHappiness(amount);
+                ScoreController.ChangeScore(Mathf.CeilToInt(amount * 0.3f));
+            }
         }
         public void OnBusThrillNearMiss_Invoked()
         {

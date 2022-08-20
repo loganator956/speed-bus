@@ -23,6 +23,7 @@ namespace SpeedBus.Gameplay
         private void Start()
         {
             BalanceBusStops();
+            Debug.Log(Mathf.CeilToInt(0f));
         }
 
         private void BalanceBusStops()
