@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
 public class BusNoiseScript : MonoBehaviour
 {
+    // Default: (0.0, 0.4) to (4.0, 3.0)
     public AnimationCurve VelocityToPitchCurve;
 
     private Rigidbody2D _rigidbody2D;

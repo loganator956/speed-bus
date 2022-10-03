@@ -14,11 +14,11 @@ public class RiderCountTextScript : MonoBehaviour
     private void Start()
     {
         OnRiderCount_Changed();
-        PlayerController.RiderCountChangedEvent.AddListener(OnRiderCount_Changed);
+        /*PlayerController.RiderCountChangedEvent.AddListener(OnRiderCount_Changed);*/
     }
 
     void OnRiderCount_Changed()
     {
-        text.text = $"RIDERS: {PlayerController.RiderCount}";
+        /*text.text = $"RIDERS: {PlayerController.RiderCount}";*/
     }
 }

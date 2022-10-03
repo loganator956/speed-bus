@@ -5,103 +5,82 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
-public class GameController : MonoBehaviour
+namespace SpeedBus.Gameplay
 {
-    private int _currentStage = 0;
-    public int CurrentStage
+    public class GameController : MonoBehaviour
     {
-        get { return _currentStage; }
-        set
+        public static UnityEvent GameTickEvent = new UnityEvent();
+        public static System.Random Randomiser;
+
+        private float[] _stopCumulativeWeightings;
+        private BusStop[] _stops;
+
+        private void Awake()
         {
-            if (value > MaxStage)
-            {
-                GameFinishedEvent.Invoke();
-            }
-            else
-            {
-                _currentStage = value;
-                PlayerStageChangedEvent.Invoke();
-            }
+            Randomiser = new System.Random();
         }
-    }
-    public const int MaxStage = 5; // limit to 10 just for the game jam build
 
-    [Header("Events")]
-    public UnityEvent PlayerStageChangedEvent, GameFinishedEvent, CheckStopsSatisfiedEvent;
-    private void Awake()
-    {
-        // register listeners
-        PlayerController.RiderCountChangedEvent.AddListener(CheckStopsSatisfied);
-        PlayerStageChangedEvent.AddListener(GameStage_Changed);
-        CheckStopsSatisfiedEvent.AddListener(CheckStopsSatisfied);
-        stops = GameObject.FindObjectsOfType<BusStopScript>();
-        GameFinishedEvent.AddListener(GameFinished);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        CurrentStage++;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    BusStopScript[] stops;
-
-    public int GetRemainingStops()
-    {
-        int count = 0;
-        foreach (BusStopScript stop in stops)
+        private void Start()
         {
-            if (!stop.CheckSatisfication()) { count++; };
+            BalanceBusStops();
+            Debug.Log(Mathf.CeilToInt(0f));
         }
-        return count;
-    }
 
-    void CheckStopsSatisfied()
-    {
-        bool success = true;
-        // BusStopScript[] stops = GameObject.FindObjectsOfType<BusStopScript>();
-        foreach (BusStopScript stop in stops)
+        private void BalanceBusStops()
         {
-            if (!stop.CheckSatisfication())
+            BusStop[] stops = FindObjectsOfType<BusStop>();
+            _stops = stops;
+            float totalTargetWeighting = 0f;
+            foreach(BusStop stop in stops)
             {
-                success = false;
+                totalTargetWeighting += stop.TargetWeighting;
+            }
+            float cumulativeValue = 0f;
+            _stopCumulativeWeightings = new float[stops.Length];
+            for(int i = 0; i < stops.Length; i++)
+            {
+                _stopCumulativeWeightings[i] = cumulativeValue + (stops[i].TargetWeighting / totalTargetWeighting);
+                cumulativeValue = _stopCumulativeWeightings[i];
             }
         }
 
-        if (success)
+        private float tickTimer = 0f;
+        private const float TickFrequency = 1f; // every x seconds
+        private void Update()
         {
-            // all stops are satisfied
-            CurrentStage++;
+            tickTimer += Time.deltaTime;
+            if (tickTimer > TickFrequency)
+            {
+                tickTimer = 0f;
+                GameTickEvent.Invoke();
+            }
         }
-        if (!success)
-        {
-            Debug.Log("Not completed yet");
-        }
-        if (success)
-        {
-            Debug.Log("Completed a stage. Now moving onto stage: " + CurrentStage);
-        }
-    }
 
-    void GameStage_Changed()
-    {
-        /*
-        Iterate through each bus stop and initialize their correct values for the stage
-        */
-
-        foreach (BusStopScript stop in GameObject.FindObjectsOfType<BusStopScript>())
+        public BusStop SelectRandomBusStop()
         {
-            stop.PassengerRequest = Convert.ToInt32(stop.PassengerRequestCurve.Evaluate(CurrentStage));
-            stop.NumberOfPassengersDefault = stop.NumberOfPassengersWaiting = Convert.ToInt32(stop.PassengerSupplyCurve.Evaluate(CurrentStage));
-        }
-    }
+            BusStop selection = null;
 
-    void GameFinished()
-    {
-        SceneManager.LoadScene(2);
+            double roll = Randomiser.NextDouble();
+
+            for (int i = 0; i < _stopCumulativeWeightings.Length; i++)
+            {
+                if (roll < _stopCumulativeWeightings[i])
+                {
+                    selection = _stops[i];
+                    break;
+                }
+            }
+
+            return selection;
+        }
+
+        public BusStop SelectRandomBusStop(BusStop ignoredStop)
+        {
+            while (true)
+            {
+                BusStop selected = SelectRandomBusStop();
+                if (selected != ignoredStop) return selected;
+            }
+        }
     }
 }
