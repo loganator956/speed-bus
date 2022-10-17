@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 343055d8e86bf6e4c833496656d4f3ef
+guid: 48c4a6a08025584449941fe85ba8c4aa
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: bus_mtl
+      name: Material
     second: {fileID: 2100000, guid: ff240fd17452b5e49a72826164f5edf8, type: 2}
   materials:
     materialImportMode: 2
@@ -73,9 +73,9 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 45
-    normalImportMode: 1
-    tangentImportMode: 2
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
