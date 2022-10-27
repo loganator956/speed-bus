@@ -50,7 +50,6 @@ public class TopDownVehicleController : MonoBehaviour
     void Update()
     {
         Vector2 dirInput = _moveAction.ReadValue<Vector2>();
-        Debug.Log(dirInput);
         if (dirInput.magnitude > SteerAngleDeadzone)
         {
             Quaternion rotation = GetRotationFromInput(dirInput);
