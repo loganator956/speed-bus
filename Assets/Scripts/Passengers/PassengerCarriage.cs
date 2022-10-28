@@ -8,13 +8,16 @@ namespace SpeedBus.Gameplay.Passengers
     [RequireComponent(typeof(TopDownVehicleController), typeof(PlayerInput))]
     public class PassengerCarriage : MonoBehaviour
     {
-        private List<Passenger> _passengersList = new List<Passenger>();
+        public List<Passenger> PassengersList = new List<Passenger>();
 
         private PlayerInput _playerInput;
         private InputAction _transferAction;
 
+        private ScoreManager _scoreManager;
+
         private void Awake()
         {
+            _scoreManager = FindObjectOfType<ScoreManager>();
             _playerInput = GetComponent<PlayerInput>();
             _transferAction = _playerInput.actions["Transfer"];
             _transferAction.Disable();
@@ -49,18 +52,19 @@ namespace SpeedBus.Gameplay.Passengers
             for (int i = stop.Passengers.Count - 1; i >= 0; i--)
             {
                 Passenger selectedPassenger = stop.Passengers[i];
-                _passengersList.Add(selectedPassenger);
+                PassengersList.Add(selectedPassenger);
                 stop.Passengers.Remove(selectedPassenger);
             }
         }
 
         void DropOffPassengers(BusStop stop)
         {
-            for (int i = _passengersList.Count - 1; i >= 0; i--)
+            for (int i = PassengersList.Count - 1; i >= 0; i--)
             { 
-                if (_passengersList[i].TryCompleteJourney(stop))
+                if (PassengersList[i].TryCompleteJourney(stop))
                 {
-                    _passengersList.RemoveAt(i);
+                    PassengersList.RemoveAt(i);
+                    _scoreManager.AwardPlayer(1, "Successful Journey", transform.position);
                 }
             }
         }
