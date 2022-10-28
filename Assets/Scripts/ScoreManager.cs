@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,5 +15,12 @@ public class ScoreManager : MonoBehaviour
         PlayerScore += amount;
         PlayerScoreChanged.Invoke(PlayerScore);
         // TODO: Message
+    }
+
+    public void PunishPlayer(int amount, string message, Vector3 worldPos)
+    {
+        PlayerScore -= Math.Abs(amount);
+        PlayerScoreChanged.Invoke(PlayerScore);
+        // TODO: Message in game world
     }
 }
