@@ -1294,6 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fd6b918403be641b884ec917c815d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoolDownTimer: 0
 --- !u!65 &793229158
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1425,6 +1426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fd6b918403be641b884ec917c815d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoolDownTimer: 0
 --- !u!4 &831169642
 Transform:
   m_ObjectHideFlags: 0
@@ -1532,6 +1534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fd6b918403be641b884ec917c815d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoolDownTimer: 0
 --- !u!4 &835485634
 Transform:
   m_ObjectHideFlags: 0
@@ -1670,7 +1673,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &836319237
 MonoBehaviour:
@@ -1684,7 +1687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4475d52eeabb93c4e8dc33331c099e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PassengersList: []
   PassengerMaxCapacity: 10
 --- !u!1001 &839775859
 PrefabInstance:
@@ -1881,7 +1883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe514bb714a39d45b56eb444989264f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Passengers: []
+  PassengerCount: 0
 --- !u!65 &927844578
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2851,7 +2853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe514bb714a39d45b56eb444989264f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Passengers: []
+  PassengerCount: 0
 --- !u!65 &1176489790
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4208,7 +4210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe514bb714a39d45b56eb444989264f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Passengers: []
+  PassengerCount: 0
 --- !u!65 &1763949470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5022,6 +5024,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TickTimerInterval: 1
+  DropOffPoint_Changed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2057647271
 MonoBehaviour:
   m_ObjectHideFlags: 0
