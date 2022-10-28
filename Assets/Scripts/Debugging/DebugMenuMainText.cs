@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using SpeedBus.Gameplay.Passengers;
+using SpeedBus.Gameplay;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class DebugMenuMainText : MonoBehaviour
@@ -17,6 +18,8 @@ public class DebugMenuMainText : MonoBehaviour
 
     private BusStop[] _busStops;
 
+    private GameController _gameController;
+
     private void Awake()
     {
         _textBox = GetComponent<TextMeshProUGUI>();
@@ -27,6 +30,8 @@ public class DebugMenuMainText : MonoBehaviour
         _passengerCarriage = _topDownVehicleController.GetComponent<PassengerCarriage>();
 
         _busStops = FindObjectsOfType<BusStop>();
+
+        _gameController = FindObjectOfType<GameController>();
     }
 
     private void Update()
@@ -37,10 +42,9 @@ Player Input Actions Enabled (Current Map) :
 {GetInputActionsString()}
 Passengers
 {GetBusStopsString()}
-On Bus : {_passengerCarriage.PassengersList.Count}
+On Bus : {_passengerCarriage.PassengerCount}
 Total : {GetTotalPassengers()}
-Targets : 
-{GetPassengerTargetsCount()}";
+Target : {_gameController.CurrentDropOffPoint.name}";
     }
 
     private string GetInputActionsString()
@@ -58,44 +62,19 @@ Targets :
         string val = "";
         foreach(BusStop stop in _busStops)
         {
-            val += $"{stop.name} : {stop.Passengers.Count}\n";
+            val += $"{stop.name} : {stop.PassengerCount}\n";
         }
         return val.TrimEnd('\n');
     }
 
     private int GetTotalPassengers()
     {
-        int x = _passengerCarriage.PassengersList.Count;
+        int x = _passengerCarriage.PassengerCount;
         foreach(BusStop stop in _busStops)
         {
-            x += stop.Passengers.Count;
+            x += stop.PassengerCount;
         }
         return x;
-    }
-
-    private string GetPassengerTargetsCount()
-    {
-        // I'm aware this is terrible, it's only temporary for testing
-        string val = "";
-        foreach (BusStop stop in _busStops)
-        {
-            int x = 0;
-            foreach (Passenger passenger in _passengerCarriage.PassengersList)
-            {
-                if (passenger.TargetStop == stop)
-                    x++;
-            }
-            foreach (BusStop s in _busStops)
-            {
-                foreach(Passenger pass in s.Passengers)
-                {
-                    if (pass.TargetStop == stop)
-                        x++;
-                }
-            }
-            val += $"{stop.name} : {x}\n";
-        }
-        return val.TrimEnd('\n');
     }
 
     const string ColourBoolFalse = "<color=\"red\">";

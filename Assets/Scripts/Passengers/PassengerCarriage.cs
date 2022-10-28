@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,65 +9,52 @@ namespace SpeedBus.Gameplay.Passengers
     [RequireComponent(typeof(TopDownVehicleController), typeof(PlayerInput))]
     public class PassengerCarriage : MonoBehaviour
     {
-        public List<Passenger> PassengersList = new List<Passenger>();
+        public int PassengerCount { get; private set; }
 
         private PlayerInput _playerInput;
-        private InputAction _transferAction;
+        private InputAction _loadPassengersAction;
+        private InputAction _unloadPassengersAction;
 
         private ScoreManager _scoreManager;
+        private GameController _gameController;
+
+        public int PassengerMaxCapacity = 10;
 
         private void Awake()
         {
             _scoreManager = FindObjectOfType<ScoreManager>();
+            _gameController = FindObjectOfType<GameController>();
             _playerInput = GetComponent<PlayerInput>();
-            _transferAction = _playerInput.actions["Transfer"];
-            _transferAction.Disable();
-            _transferAction.performed += TransferAction_Performed;
+            _loadPassengersAction = _playerInput.actions["Load"];
+            _loadPassengersAction.Disable();
+            _loadPassengersAction.performed += LoadPassengersAction_Performed;
+            _unloadPassengersAction = _playerInput.actions["Unload"];
+            _unloadPassengersAction.Disable();
+            _unloadPassengersAction.performed += UnloadPassengersAction_Performed;
+        }
+
+        private void UnloadPassengersAction_Performed(InputAction.CallbackContext obj)
+        {
+            for (int i = 0; i < PassengerCount; i++)
+            {
+                _scoreManager.AwardPlayer(1, "Drop Off", transform.position);
+            }
+            PassengerCount = 0;
+            _gameController.CurrentDropOffPoint.CoolDownTimer = 5f;
+            _gameController.PickNewDropOffPoint();
         }
 
         private BusStop _currentBusStop = null;
 
-        private void TransferAction_Performed(InputAction.CallbackContext obj)
-        {
-            PickupPassengers(_currentBusStop);
-            DropOffPassengers(_currentBusStop);
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        void PickupPassengers(BusStop stop)
+        private void LoadPassengersAction_Performed(InputAction.CallbackContext obj)
         {
             // TODO: Here will be where the chance bar appears
             // for now just pickup all of em
 
-            for (int i = stop.Passengers.Count - 1; i >= 0; i--)
-            {
-                Passenger selectedPassenger = stop.Passengers[i];
-                PassengersList.Add(selectedPassenger);
-                stop.Passengers.Remove(selectedPassenger);
-            }
-        }
-
-        void DropOffPassengers(BusStop stop)
-        {
-            for (int i = PassengersList.Count - 1; i >= 0; i--)
-            { 
-                if (PassengersList[i].TryCompleteJourney(stop))
-                {
-                    PassengersList.RemoveAt(i);
-                    _scoreManager.AwardPlayer(1, "Successful Journey", transform.position);
-                }
-            }
+            int maxLoadable = PassengerMaxCapacity - PassengerCount;
+            int toLoad = Mathf.Min(maxLoadable, _currentBusStop.PassengerCount);
+            _currentBusStop.PassengerCount -= toLoad;
+            PassengerCount += toLoad;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -75,7 +63,14 @@ namespace SpeedBus.Gameplay.Passengers
             if (busStop != null)
             {
                 _currentBusStop = busStop;
-                _transferAction.Enable();
+                _loadPassengersAction.Enable(); 
+                return;
+            }
+            DropOffPoint dropOff = other.GetComponent<DropOffPoint>();
+            if (dropOff != null)
+            {
+                // left drop off
+                _unloadPassengersAction.Enable();
             }
         }
 
@@ -85,8 +80,15 @@ namespace SpeedBus.Gameplay.Passengers
             if (busStop != null)
             {
                 // left bus stop
-                _transferAction.Disable();
+                _loadPassengersAction.Disable();
                 _currentBusStop = null;
+                return;
+            }
+            DropOffPoint dropOff = other.GetComponent<DropOffPoint>();
+            if (dropOff != null)
+            {
+                // left drop off
+                _unloadPassengersAction.Disable();
             }
         }
     }

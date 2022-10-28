@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SpeedBus.Gameplay.Passengers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,13 +13,16 @@ namespace SpeedBus.Gameplay
 
         private float _tickT = 0f;
 
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
-
+            dropOffPoints = FindObjectsOfType<DropOffPoint>();
         }
 
-        // Update is called once per frame
+        private void Start()
+        {
+            PickNewDropOffPoint();
+        }
+
         void Update()
         {
             _tickT += Time.deltaTime;
@@ -28,5 +32,21 @@ namespace SpeedBus.Gameplay
                 GameTickEvent.Invoke();
             }
         }
+
+        DropOffPoint[] dropOffPoints;
+
+        public void PickNewDropOffPoint()
+        {
+            foreach (DropOffPoint dropOffPoint in dropOffPoints)
+            {
+                dropOffPoint.enabled = false;
+            }
+            CurrentDropOffPoint = dropOffPoints[Random.Range(0, dropOffPoints.Length)];
+            CurrentDropOffPoint.enabled = true;
+            DropOffPoint_Changed.Invoke(CurrentDropOffPoint);
+        }
+
+        public DropOffPoint CurrentDropOffPoint { get; private set; }
+        public UnityEvent<DropOffPoint> DropOffPoint_Changed = new UnityEvent<DropOffPoint>();
     } 
 }

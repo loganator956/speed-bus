@@ -7,7 +7,7 @@ namespace SpeedBus.Gameplay.Passengers
     [RequireComponent(typeof(BoxCollider))]
     public class BusStop : MonoBehaviour
     {
-        public List<Passenger> Passengers = new List<Passenger>();
+        public int PassengerCount;
         private void Awake()
         {
             GameController.GameTickEvent.AddListener(OnGameTickEvent_Invoked);
@@ -22,7 +22,7 @@ namespace SpeedBus.Gameplay.Passengers
             if (t_SpawnCounter > 10)
             {
                 t_SpawnCounter = 0;
-                Passengers.Add(new Passenger(this));
+                PassengerCount++;
             }
         }
 
