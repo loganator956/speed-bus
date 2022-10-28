@@ -76,7 +76,6 @@ namespace SpeedBus.Gameplay.Passengers
             {
                 _currentBusStop = busStop;
                 _transferAction.Enable();
-                Debug.Log("Enabled transfer acton");
             }
         }
 
@@ -88,7 +87,6 @@ namespace SpeedBus.Gameplay.Passengers
                 // left bus stop
                 _transferAction.Disable();
                 _currentBusStop = null;
-                Debug.Log("Disabled transfer acton");
             }
         }
     }
