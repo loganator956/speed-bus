@@ -12,6 +12,7 @@ public class DebugMenuMainText : MonoBehaviour
     private TextMeshProUGUI _textBox;
 
     private Transform _playerTransform;
+    private Rigidbody _playerRigidbody;
     private TopDownVehicleController _topDownVehicleController;
     private PlayerInput _playerInput;
     private PassengerCarriage _passengerCarriage;
@@ -26,6 +27,7 @@ public class DebugMenuMainText : MonoBehaviour
 
         _topDownVehicleController = FindObjectOfType<TopDownVehicleController>();
         _playerTransform = _topDownVehicleController.transform;
+        _playerRigidbody = _playerTransform.GetComponent<Rigidbody>();
         _playerInput = _topDownVehicleController.GetComponent<PlayerInput>();
         _passengerCarriage = _topDownVehicleController.GetComponent<PassengerCarriage>();
 
@@ -38,6 +40,7 @@ public class DebugMenuMainText : MonoBehaviour
     {
         _textBox.text =
 @$"Player Position : {_playerTransform.position}
+Player Velocity : {_playerRigidbody.velocity.magnitude.ToString("0.00")}
 Player Input Actions Enabled (Current Map) :
 {GetInputActionsString()}
 Passengers
